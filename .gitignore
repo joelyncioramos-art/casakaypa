@@ -7,3 +7,5 @@
 !/design-system
 !/.gitignore
 !/README.md
+!/.github
+!/.github/**
