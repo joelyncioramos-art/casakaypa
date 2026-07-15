@@ -10,10 +10,11 @@
    - Con cursor fino (hover): interacción manual, la tinta sigue
      al mouse y se cierra sola al alejarse (comportamiento arriba).
    - Táctil (sin hover fino): no hay cursor que seguir, así que la
-     obra se "auto-pinta" una sola vez —de blanco y negro a color,
-     con el mismo trazo irregular de tinta— cuando entra en pantalla
-     al hacer scroll (ver initAutoReveal). Queda revelada para
-     siempre tras esa animación.
+     obra se "auto-pinta" —de blanco y negro a color, con el mismo
+     trazo irregular de tinta— cada vez que entra en pantalla al
+     hacer scroll. Al salir del viewport vuelve al velo desaturado,
+     de modo que el efecto es REVERSIBLE y se disfruta en cada
+     pasada, en ambas direcciones de scroll.
    - Con prefers-reduced-motion: sin máscara, imagen visible tal cual.
    ============================================================ */
 (function () {
@@ -193,6 +194,11 @@
       if (revealed) return;
       revealed = true;
 
+      // El marco pudo medirse en 0 (imagen lazy aún sin layout) o el
+      // canvas pudo quedar obsoleto tras un giro de pantalla: se
+      // remide antes de pintar para no dibujar sobre un lienzo vacío.
+      if (!dims.w || !dims.h) resize();
+
       var GROW = 1300;   // ms que tarda cada mancha en abrirse (pausado, de marca)
       var STAGGER = 150; // ms de desfase entre manchas (aspecto orgánico)
       var start = performance.now();
@@ -217,11 +223,14 @@
         };
       });
 
-      ctx.globalCompositeOperation = 'destination-out';
-
       function frame(now) {
+        // Abortado (la obra salió de pantalla y se re-veló): parar.
+        if (!revealed) return;
+
         var elapsed = now - start;
         var allDone = true;
+
+        ctx.globalCompositeOperation = 'destination-out';
 
         blots.forEach(function (b) {
           var t = (elapsed - b.delay) / GROW;
@@ -269,14 +278,19 @@
         lastPos = null;
       });
     } else {
-      /* ---------- Modo táctil (celular) — auto-revelado en scroll ---------- */
+      /* ---------- Modo táctil (celular) — auto-revelado en scroll ----------
+         Reversible: al entrar en pantalla la obra se auto-pinta; al
+         salir vuelve al velo desaturado, listo para pintarse de nuevo
+         en la próxima pasada (scroll arriba o abajo). */
       canvas.style.pointerEvents = 'none';
 
-      new IntersectionObserver(function (entries, obs) {
+      new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             autoReveal();
-            obs.unobserve(entry.target);
+          } else if (revealed) {
+            revealed = false;   // aborta la animación en curso si la hay
+            paintVeil();        // restaura el velo desaturado
           }
         });
       }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' }).observe(panel);

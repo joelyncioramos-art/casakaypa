@@ -172,6 +172,101 @@
     });
   }
 
+  /* ---------- Navegación por anclas (header, menú móvil, footer) ----------
+     Dos bugs que esto corrige:
+     1) "Inicio" apunta a #inicio, que es la cabecera FIJA: un elemento
+        position:fixed no tiene posición en el flujo del documento, así
+        que el navegador no scrollea a ningún lado. Se intercepta y se
+        scrollea explícitamente al tope de la página.
+     2) En móvil, el scroll suave de CSS atraviesa animadamente las
+        300vh del hero (con el motor día/noche frotando el video seek a
+        seek) mientras el menú se cierra con su clip-path: tres
+        animaciones pesadas a la vez = parpadeo. En pantallas táctiles
+        el salto es instantáneo; el desktop conserva el scroll suave. */
+  function initAnchorNav() {
+    var HEADER_H = 72;
+    var instantNav = window.matchMedia('(hover: none), (pointer: coarse), (max-width: 640px)');
+
+    function jump(top, instant) {
+      if (instant) {
+        // scroll-behavior:smooth de CSS ganaría incluso con
+        // behavior:'auto'; se desactiva solo durante el salto.
+        var prev = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, top);
+        requestAnimationFrame(function () {
+          document.documentElement.style.scrollBehavior = prev;
+        });
+      } else {
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    }
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var hash = link.getAttribute('href');
+      if (hash.length < 2) return;
+      var target = document.getElementById(hash.slice(1));
+      if (!target) return;
+
+      e.preventDefault();
+      var instant = instantNav.matches || reduceMotion;
+
+      // La cabecera es fija: "Inicio" = tope absoluto de la página.
+      var isFixed = getComputedStyle(target).position === 'fixed';
+      var top = isFixed ? 0
+        : Math.max(0, target.getBoundingClientRect().top + window.scrollY - HEADER_H);
+
+      // Esperar un frame para que el cierre del menú suelte
+      // body.menu-open (overflow:hidden bloquearía el scroll).
+      requestAnimationFrame(function () { jump(top, instant); });
+    });
+  }
+
+  /* ---------- Videos ambiente: reanudar tras suspensión ----------
+     Al bloquear el teléfono (o dejar la pestaña en segundo plano un
+     buen rato) el navegador pausa los <video autoplay loop> y puede
+     liberar sus decodificadores — al volver quedan congelados o en
+     NEGRO. Aquí se reanudan: al volver a ser visible el documento, al
+     restaurar desde bfcache (pageshow) y al reentrar en pantalla.
+     El video del hero (.dn-video) se excluye: lo gobierna day-night.js. */
+  function initVideoKeepAlive() {
+    function ambientVideos() {
+      return Array.prototype.filter.call(
+        document.querySelectorAll('video[autoplay][loop]'),
+        function (v) { return !v.classList.contains('dn-video'); }
+      );
+    }
+
+    function resume(v) {
+      if (v.paused) {
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+    }
+
+    function resumeAll() {
+      if (document.hidden) return;
+      ambientVideos().forEach(resume);
+    }
+
+    document.addEventListener('visibilitychange', resumeAll);
+    window.addEventListener('pageshow', resumeAll);
+    window.addEventListener('focus', resumeAll);
+
+    // Reanudar también cuando el video reentra en pantalla (algunos
+    // navegadores pausan los que quedan fuera del viewport).
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !document.hidden) resume(entry.target);
+        });
+      }, { threshold: 0.1 });
+      ambientVideos().forEach(function (v) { io.observe(v); });
+    }
+  }
+
   /* ---------- Scroll card stack (fichas de la casa) ----------
      Puerto vanilla del componente GSAP ScrollTrigger de "SCROLL
      CARD.docx". Solo en phone view (≤640px): el bloque de fichas se
@@ -290,6 +385,8 @@
     initHeader();
     initReveals();
     initMobileMenu();
+    initAnchorNav();
+    initVideoKeepAlive();
     initScrollCards();
     initIcons();
   }

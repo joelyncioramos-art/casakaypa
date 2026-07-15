@@ -18,6 +18,10 @@ html {
   html { scroll-behavior: smooth; }
 }
 
+/* La cabecera es fija: sin esto, el destino de un ancla queda oculto
+   debajo de ella (aplica a cargas directas con #hash en la URL). */
+[id] { scroll-margin-top: 84px; }
+
 body {
   margin: 0;
   font-family: var(--font-body);
