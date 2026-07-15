@@ -35,6 +35,18 @@
   };
 
   var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* Velo previo: en hover (desktop) el usuario ve la máscara solo un
+     instante mientras "pinta" con el cursor, así que un gris suave
+     basta. En táctil, el B/N es el estado de REPOSO —lo que se ve
+     mientras se scrollea antes de llegar al cuadro— así que necesita
+     leerse claramente como blanco y negro para que el paso a color
+     se note. Sin el brightness/contrast que aclaraba el gris y con
+     bastante menos velo marfil encima. */
+  var VEIL_FILTER = canHover
+    ? 'grayscale(1) brightness(1.06) contrast(0.94)'
+    : 'grayscale(1) contrast(1.05)';
+  var VEIL_TINT_ALPHA = canHover ? 0.32 : 0.14;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function initPanel(panel, opts) {
@@ -81,10 +93,10 @@
       if (revealed) return;
       if (img.complete && img.naturalWidth) {
         var r = coverRect(img.naturalWidth, img.naturalHeight, dims.w, dims.h);
-        ctx.filter = 'grayscale(1) brightness(1.06) contrast(0.94)';
+        ctx.filter = VEIL_FILTER;
         ctx.drawImage(img, r.dx, r.dy, r.dw, r.dh);
         ctx.filter = 'none';
-        ctx.fillStyle = 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',0.32)';
+        ctx.fillStyle = 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',' + VEIL_TINT_ALPHA + ')';
         ctx.fillRect(0, 0, dims.w, dims.h);
       } else {
         ctx.fillStyle = 'rgb(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ')';
