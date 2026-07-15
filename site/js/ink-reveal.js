@@ -7,9 +7,14 @@
    luego se cierra sola.
 
    Mejora progresiva:
-   - Solo se activa con cursor fino (hover) y sin
-     prefers-reduced-motion. En táctil o con movimiento
-     reducido, las imágenes se muestran normalmente.
+   - Con cursor fino (hover): interacción manual, la tinta sigue
+     al mouse y se cierra sola al alejarse (comportamiento arriba).
+   - Táctil (sin hover fino): no hay cursor que seguir, así que la
+     obra se "auto-pinta" una sola vez —de blanco y negro a color,
+     con el mismo trazo irregular de tinta— cuando entra en pantalla
+     al hacer scroll (ver initAutoReveal). Queda revelada para
+     siempre tras esa animación.
+   - Con prefers-reduced-motion: sin máscara, imagen visible tal cual.
    ============================================================ */
 (function () {
   'use strict';
@@ -41,8 +46,8 @@
     img.parentNode.insertBefore(frame, img);
     frame.appendChild(img);
 
-    // Sin hover o con movimiento reducido: imagen visible, sin máscara
-    if (!canHover || reduceMotion) return;
+    // Movimiento reducido: imagen visible, sin máscara ni animación
+    if (reduceMotion) return;
 
     var canvas = document.createElement('canvas');
     frame.appendChild(canvas);
@@ -53,6 +58,7 @@
     var lastPos = null;
     var dims = { w: 0, h: 0 };
     var mc = opts.maskColor;
+    var revealed = false; // modo táctil: evita re-disparar el auto-revelado
 
     // Rectángulo "cover" para dibujar la imagen llenando el marco
     function coverRect(iw, ih, w, h) {
@@ -68,6 +74,10 @@
     function paintVeil() {
       ctx.globalCompositeOperation = 'source-over';
       ctx.clearRect(0, 0, dims.w, dims.h);
+      // Ya revelada (modo táctil): queda transparente, sin repintar el
+      // velo — evita que una carga tardía de imagen o un resize (p. ej.
+      // girar el celular) vuelvan a tapar la obra.
+      if (revealed) return;
       if (img.complete && img.naturalWidth) {
         var r = coverRect(img.naturalWidth, img.naturalHeight, dims.w, dims.h);
         ctx.filter = 'grayscale(1) brightness(1.06) contrast(0.94)';
@@ -170,27 +180,107 @@
       }
     }
 
-    function relPos(e) {
-      var rect = canvas.getBoundingClientRect();
-      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    /* ---------- Auto-revelado (solo táctil / sin hover fino) ----------
+       Sin cursor que seguir, la obra se "auto-pinta" una única vez con
+       varias manchas de tinta que brotan (con el mismo trazo irregular
+       del modo hover) y crecen hasta cubrir todo el lienzo, revelando
+       el color permanentemente. Se dispara al entrar en pantalla. */
+    // Curva simétrica (lenta-rápida-lenta), como la del frote día/noche:
+    // se siente "pintada" en vez de un arranque brusco tipo ease-out.
+    function smoothstep(t) { return t * t * (3 - 2 * t); }
+
+    function autoReveal() {
+      if (revealed) return;
+      revealed = true;
+
+      var GROW = 1300;   // ms que tarda cada mancha en abrirse (pausado, de marca)
+      var STAGGER = 150; // ms de desfase entre manchas (aspecto orgánico)
+      var start = performance.now();
+
+      // Puntos de origen repartidos por el lienzo (centro + 4 cuadrantes).
+      // Radio ajustado a la distancia real al rincón más lejano (los
+      // marcos de Arte son cuadrados): cubre el lienzo justo al llegar
+      // al final de la animación, no antes.
+      var maxR = Math.max(dims.w, dims.h) * 0.78;
+      var blots = [
+        { fx: 0.5, fy: 0.5, delay: 0 },
+        { fx: 0.22, fy: 0.28, delay: STAGGER },
+        { fx: 0.78, fy: 0.26, delay: STAGGER * 2 },
+        { fx: 0.24, fy: 0.76, delay: STAGGER * 3 },
+        { fx: 0.8, fy: 0.78, delay: STAGGER * 4 }
+      ].map(function (b) {
+        return {
+          x: dims.w * b.fx,
+          y: dims.h * b.fy,
+          delay: b.delay,
+          seed: Math.random() * Math.PI * 2
+        };
+      });
+
+      ctx.globalCompositeOperation = 'destination-out';
+
+      function frame(now) {
+        var elapsed = now - start;
+        var allDone = true;
+
+        blots.forEach(function (b) {
+          var t = (elapsed - b.delay) / GROW;
+          if (t <= 0) { allDone = false; return; }
+          if (t < 1) allDone = false;
+          t = Math.min(1, t);
+          var r = maxR * smoothstep(t);
+          carveInk(b.x, b.y, r, b.seed, 1);
+        });
+
+        if (!allDone) {
+          requestAnimationFrame(frame);
+        } else {
+          // Red de seguridad: borra cualquier resto de velo en las
+          // esquinas para garantizar un revelado completo y limpio.
+          ctx.fillStyle = 'rgba(0,0,0,1)';
+          ctx.fillRect(0, 0, dims.w, dims.h);
+        }
+      }
+
+      requestAnimationFrame(frame);
     }
 
-    canvas.addEventListener('mouseenter', function (e) {
-      var pos = relPos(e);
-      lastPos = pos;
-      stampAlong(pos.x, pos.y);
-      startLoop();
-    });
+    if (canHover) {
+      /* ---------- Modo hover (desktop) — sin cambios ---------- */
+      function relPos(e) {
+        var rect = canvas.getBoundingClientRect();
+        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      }
 
-    canvas.addEventListener('mousemove', function (e) {
-      var pos = relPos(e);
-      stampAlong(pos.x, pos.y);
-      startLoop();
-    });
+      canvas.addEventListener('mouseenter', function (e) {
+        var pos = relPos(e);
+        lastPos = pos;
+        stampAlong(pos.x, pos.y);
+        startLoop();
+      });
 
-    canvas.addEventListener('mouseleave', function () {
-      lastPos = null;
-    });
+      canvas.addEventListener('mousemove', function (e) {
+        var pos = relPos(e);
+        stampAlong(pos.x, pos.y);
+        startLoop();
+      });
+
+      canvas.addEventListener('mouseleave', function () {
+        lastPos = null;
+      });
+    } else {
+      /* ---------- Modo táctil (celular) — auto-revelado en scroll ---------- */
+      canvas.style.pointerEvents = 'none';
+
+      new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            autoReveal();
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' }).observe(panel);
+    }
 
     if ('ResizeObserver' in window) {
       new ResizeObserver(resize).observe(frame);
