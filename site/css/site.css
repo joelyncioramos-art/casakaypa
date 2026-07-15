@@ -1266,7 +1266,14 @@ body.menu-open { overflow: hidden; }
 /* El rotor y su punto final viajan siempre juntos: sin esto, el
    navegador puede romper línea entre el inline-block y el "." y
    el punto cae solo a la línea siguiente (desencuadre en móvil). */
-.hero__rotor-unit { white-space: nowrap; }
+/* Dos líneas SIEMPRE: "Un espacio para" arriba y la palabra que rota
+   abajo, en su propia línea. Sin esto, las palabras cortas subían a la
+   misma línea de la frase (o el punto se descolgaba) y el alto de la
+   card saltaba al cambiar de palabra. Ambas piezas son bloque y se
+   centran; el ancho del rotor se anima sin afectar el alto ni el
+   ancho de la card. */
+.hero__title-lead { display: block; }
+.hero__rotor-unit { display: block; white-space: nowrap; }
 
 .hero__rotor {
   position: relative;
