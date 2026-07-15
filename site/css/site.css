@@ -1707,16 +1707,27 @@ body.menu-open { overflow: hidden; }
     will-change: clip-path;
   }
 
-  /* Hero card más compacta para dejar ver el fondo día/noche */
+  /* Hero card compacta y translúcida: en phone view el protagonista
+     es el VIDEO día/noche del fondo — la tarjeta ocupa lo mínimo y
+     deja ver la escena a través de ella. */
   .hero { padding-inline: var(--space-4); }
-  .hero__card { padding: var(--space-5); gap: var(--space-4); max-width: 330px; }
+  .hero__card {
+    padding: var(--space-4) var(--space-5);
+    gap: var(--space-3);
+    max-width: 310px;
+    /* Más transparente que en desktop (82%) para que respire el fondo */
+    background: color-mix(in srgb, var(--ck-neutral-0) 62%, transparent);
+  }
   /* Un punto menos de cuerpo: la frase + palabra rotando + "." caben
      sin que el punto se descuelgue a otra línea */
   .hero__title { font-size: clamp(1.55rem, 6.5vw, 1.9rem); }
+  .hero__wordmark { font-size: 1.05rem; }
   .hero__mark { margin-top: 0; }
-  .hero__mark svg { width: 84px; }
+  .hero__mark svg { width: 64px; }
   .hero__actions { flex-direction: column; width: 100%; }
   .hero__actions .btn { width: 100%; }
+  /* Sin "Conocer la casa" en phone: un solo CTA y más video visible */
+  .hero__actions .btn--outline-light { display: none; }
 
   /* Historia · texto de cuerpo un poco más pequeño */
   .historia__text p { font-size: 1.0625rem; line-height: var(--lh-relaxed); }
