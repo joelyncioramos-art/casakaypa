@@ -1,0 +1,12 @@
+/* ============================================================
+   Casa Kaypa · Design System
+   Single global entry point. Consumers link THIS file only.
+   Keep this as an @import manifest — no rules live here.
+   ============================================================ */
+
+@import "tokens/fonts.css";
+@import "tokens/colors.css";
+@import "tokens/typography.css";
+@import "tokens/spacing.css";
+@import "tokens/radii.css";
+@import "tokens/motion.css";

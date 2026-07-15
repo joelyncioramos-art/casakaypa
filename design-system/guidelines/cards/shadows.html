@@ -1,0 +1,23 @@
+<!-- @dsCard group="Spacing" viewport="700x190" name="Elevation" subtitle="Warm-toned, diffuse shadows — never heavy black" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); font-family:var(--font-body); color:var(--text-primary); padding:28px; }
+  .row { display:flex; gap:28px; }
+  .item { display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .box { width:110px; height:78px; background:var(--surface-raised); border-radius:var(--radius-lg); }
+  .tok { font-size:11.5px; color:var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-xs)"></div><div class="tok">xs</div></div>
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-sm)"></div><div class="tok">sm · cards</div></div>
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-md)"></div><div class="tok">md · popovers</div></div>
+    <div class="item"><div class="box" style="box-shadow:var(--shadow-lg)"></div><div class="tok">lg · modals</div></div>
+  </div>
+</body>
+</html>

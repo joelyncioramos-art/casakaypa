@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Casa Kaypa | Refugio de campo boutique en Santa Eulalia, Lima</title>
+  <meta name="description" content="Casa Kaypa es una casa de campo boutique en Santa Eulalia, a poca distancia de Lima. Un espacio para reconectar: naturaleza, arquitectura, piscina, zona BBQ y experiencias de arte." />
+  <meta property="og:title" content="Casa Kaypa | Un espacio para reconectar" />
+  <meta property="og:description" content="Refugio de campo boutique en Santa Eulalia, Lima. Hasta 16 huéspedes, piscina de 14 metros, zona BBQ y amplias áreas verdes." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="assets/logo/casa-kaypa-logo.png" />
+
+  <!-- Sistema de diseño Casa Kaypa (tokens) + estilos de página -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+
+  <!-- Centinela para detectar scroll (evita listeners de scroll) -->
+  <div id="top-sentinel" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       CABECERA · logo a la izquierda, navegación a la derecha
+       ============================================================ -->
+  <header class="site-header" id="inicio">
+    <div class="site-header__inner">
+      <a class="brand" href="#inicio" aria-label="Casa Kaypa, ir al inicio">
+        <svg class="brand__mark" viewBox="0 0 660 400" fill="none" aria-hidden="true"><use href="#ck-isotype"/></svg>
+      </a>
+
+      <nav class="site-nav" aria-label="Navegación principal">
+        <ul class="site-nav__list">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#habitaciones">Habitaciones</a></li>
+          <li><a href="#reservas">Reservas</a></li>
+          <li><a href="#areas-comunes">Áreas comunes</a></li>
+          <li><a href="#experiencias">Experiencias</a></li>
+          <li><a href="#portafolio">Portafolio de Arte</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
+        <span class="nav-toggle__line" aria-hidden="true"></span>
+        <span class="nav-toggle__line" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Menú móvil (pantalla completa, crema). En phone view (≤640px) se
+       revela con un borde curvo animado por clip-path (ver "CURVED
+       MENU.docx" — puerto vanilla del efecto, sin React/Framer). -->
+  <div class="mobile-menu" id="menu-movil" hidden>
+    <nav aria-label="Navegación móvil">
+      <ul class="mobile-menu__list">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#habitaciones">Habitaciones</a></li>
+        <li><a href="#reservas">Reservas</a></li>
+        <li><a href="#areas-comunes">Áreas comunes</a></li>
+        <li><a href="#experiencias">Experiencias</a></li>
+        <li><a href="#portafolio">Portafolio de Arte</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- ============================================================
+         HERO CINEMÁTICO · transición día→noche ligada al scroll
+         La pista (.hero-runway) crea el recorrido; el hero queda
+         fijo (sticky) mientras el scroll "frota" la transición.
+
+         MODO ACTUAL (prueba): fundido fotográfico día→noche sobre
+         la foto real de la casa (la "noche" es la misma foto con
+         gradación nocturna CSS).
+
+         MODO VIDEO (Higgsfield): al tener el archivo, colocarlo en
+         assets/media/ y añadir a .hero-runway el atributo
+           data-video-src="assets/media/casa-kaypa-dia-noche-720.mp4"
+         El módulo js/day-night.js lo precarga y pasa a frotar el
+         video automáticamente. Para un scrubbing fluido, exportar
+         H.264 silencioso con keyframes densos (idealmente
+         all-intra / keyframe cada frame), 6 a 10 s. La versión 4K
+         posterior solo reemplaza el archivo.
+         ============================================================ -->
+    <!-- Video generado con Higgsfield (Seedance 2.0, 21:9, silencioso).
+         Entrega adaptativa: 4K en escritorio capaz; 720p ligero en
+         móvil / ahorro de datos / equipos modestos. Al aprobar, la
+         futura versión puede sustituir cualquiera de los dos archivos. -->
+    <div class="hero-runway" data-daynight
+         data-video-src="assets/media/casa-kaypa-dia-noche-4k.mp4?v=3"
+         data-video-src-lite="assets/media/casa-kaypa-dia-noche-720.mp4?v=3">
+      <section class="hero" aria-label="Bienvenida">
+        <div class="hero__media" data-motion-slot="hero-background">
+          <div class="dn-stage">
+            <img class="dn-layer dn-layer--day" src="assets/media/casa-kaypa-dia.jpeg"
+                 alt="Piscina, jardines y casa de Casa Kaypa al pie del valle" loading="eager" fetchpriority="high" />
+            <img class="dn-layer dn-layer--night" src="assets/media/casa-kaypa-dia.jpeg" alt="" aria-hidden="true" />
+            <div class="dn-tint" aria-hidden="true"></div>
+          </div>
+          <div class="hero__scrim" aria-hidden="true"></div>
+        </div>
+
+      <div class="hero__card reveal">
+        <p class="hero__wordmark">Casa Kaypa</p>
+        <h1 class="hero__title">Un espacio para <span class="hero__rotor-unit"><em class="hero__rotor" data-word-rotor='["reconectar","relajarse","celebrar","brindar","divertirse","compartir","crear","inspirar","disfrutar"]'>reconectar</em>.</span></h1>
+        <p class="hero__sub">Una casa de campo boutique a solo 2 horas de Lima.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="https://airbnb.com.pe/h/casakaypa" target="_blank" rel="noopener noreferrer">Reservar ahora</a>
+          <a class="btn btn--outline-light" href="#historia">Conocer la casa</a>
+        </div>
+
+        <!-- Isotipo Casa Kaypa (solo icono) con animación de trazo.
+             Interpretación vectorial simplificada del logo original;
+             si más adelante existe el archivo vectorial oficial,
+             basta con reemplazar estos paths. -->
+        <div class="hero__mark" aria-hidden="true">
+          <svg class="logo-draw" viewBox="0 0 660 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Estructura A-frame -->
+            <path class="logo-draw__stroke" style="--draw-delay: 0.6s"  d="M10 380 L245 20 L415 380" pathLength="1"/>
+            <path class="logo-draw__stroke" style="--draw-delay: 1.9s" d="M327 195 L525 195 L640 380" pathLength="1"/>
+            <path class="logo-draw__stroke" style="--draw-delay: 3.2s"  d="M235 380 L640 380" pathLength="1"/>
+            <!-- Ramita botánica -->
+            <path class="logo-draw__stroke logo-draw__stroke--fine" style="--draw-delay: 4.1s" d="M237 370 C233 340 236 300 240 262" pathLength="1"/>
+            <path class="logo-draw__stroke logo-draw__stroke--fine" style="--draw-delay: 4.7s" d="M232 246 C234 236 237 231 240 228 M248 246 C246 236 243 231 240 228 M226 250 C230 240 234 233 240 228 M254 250 C250 240 246 233 240 228" pathLength="1"/>
+            <path class="logo-draw__stroke logo-draw__stroke--fine" style="--draw-delay: 5.2s" d="M239 300 C248 291 254 283 257 273 M251 273 C253 265 256 260 259 256 M263 271 C261 264 260 259 259 256" pathLength="1"/>
+            <path class="logo-draw__stroke logo-draw__stroke--fine" style="--draw-delay: 5.7s" d="M237 332 C228 323 222 314 219 303 M213 303 C214 295 216 289 219 285 M225 301 C223 294 221 289 219 285" pathLength="1"/>
+            <path class="logo-draw__stroke logo-draw__stroke--fine" style="--draw-delay: 6.1s" d="M238 350 C244 347 248 343 250 338" pathLength="1"/>
+          </svg>
+        </div>
+      </div>
+
+        <svg class="hero__edge" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,42 C180,68 340,18 520,30 C700,42 820,66 1010,48 C1200,30 1320,56 1440,38 L1440,70 L0,70 Z" fill="var(--surface-page)"/>
+        </svg>
+      </section>
+    </div>
+
+    <!-- Filtros de acuarela e isotipo compartidos (definidos una sola vez) -->
+    <svg class="svg-defs" aria-hidden="true" focusable="false">
+      <defs>
+        <!-- Isotipo Casa Kaypa (interpretación vectorial simplificada del logo) -->
+        <symbol id="ck-isotype" viewBox="0 0 660 400" fill="none">
+          <path class="iso-stroke" d="M10 380 L245 20 L415 380"/>
+          <path class="iso-stroke" d="M327 195 L525 195 L640 380"/>
+          <path class="iso-stroke" d="M235 380 L640 380"/>
+          <path class="iso-stroke iso-stroke--fine" d="M237 370 C233 340 236 300 240 262"/>
+          <path class="iso-stroke iso-stroke--fine" d="M232 246 C234 236 237 231 240 228 M248 246 C246 236 243 231 240 228 M226 250 C230 240 234 233 240 228 M254 250 C250 240 246 233 240 228"/>
+          <path class="iso-stroke iso-stroke--fine" d="M239 300 C248 291 254 283 257 273 M251 273 C253 265 256 260 259 256 M263 271 C261 264 260 259 259 256"/>
+          <path class="iso-stroke iso-stroke--fine" d="M237 332 C228 323 222 314 219 303 M213 303 C214 295 216 289 219 285 M225 301 C223 294 221 289 219 285"/>
+          <path class="iso-stroke iso-stroke--fine" d="M238 350 C244 347 248 343 250 338"/>
+        </symbol>
+        <filter id="wash-soft" x="-40%" y="-40%" width="180%" height="180%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7" result="t"/>
+          <feDisplacementMap in="SourceGraphic" in2="t" scale="90"/>
+          <feGaussianBlur stdDeviation="16"/>
+        </filter>
+        <filter id="wash-edge" x="-40%" y="-40%" width="180%" height="180%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" seed="21" result="t"/>
+          <feDisplacementMap in="SourceGraphic" in2="t" scale="60"/>
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- ============================================================
+         HISTORIA · editorial asimétrico + banda de cifras
+         ============================================================ -->
+    <section class="historia" id="historia">
+      <svg class="wash wash--historia" viewBox="0 0 600 600" aria-hidden="true">
+        <ellipse cx="300" cy="300" rx="200" ry="160" fill="var(--ck-sage-200)" opacity="0.5" filter="url(#wash-soft)"/>
+      </svg>
+
+      <div class="container historia__grid">
+        <div class="historia__text reveal">
+          <h2 class="section-title">Casa Kaypa nació de un sueño.</h2>
+          <p class="is-desktop-only">Hace muchos años, este terreno en las alturas de Santa Eulalia fue adquirido con una visión clara: crear un refugio fuera del bullicio limeño, donde la naturaleza, la luz y la tranquilidad fueran protagonistas.</p>
+          <p class="is-mobile-only">Hace muchos años, este terreno en las alturas de Santa Eulalia fue adquirido con una visión y un sueño claro: crear un refugio fuera del bullicio limeño, donde la naturaleza, la luz y la tranquilidad fueran protagonistas.</p>
+          <p>Poco a poco, y con mucha dedicación, la casa fue construida y diseñada como un espacio para escapar de la rutina. Un lugar donde trabajar la madera, pintar, crear arte o simplemente relajarse bajo el sol, flotando en la piscina.</p>
+          <p>Queremos que nuestros huéspedes no solo descansen, sino que vivan y exploren la casa en su totalidad: caminar sin prisa y encontrarse con retazos de creatividad en cada esquina.</p>
+          <p class="is-desktop-only">La sala principal, con su techo romano, es un homenaje a los espacios clásicos. Y en el patio, una fuente especial guarda una historia aún más antigua: el pequeño pez de donde brota el agua fue traído desde México, mucho antes de que existiera la casa, con la esperanza de que algún día formara parte de un lugar de descanso soñado.</p>
+          <p>Hoy, ese sueño es una realidad, y te invitamos a vivirlo con nosotros.</p>
+        </div>
+        <figure class="historia__media reveal" style="--d: 1">
+          <video src="assets/media/casa-kaypa-entrada-patio-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la entrada y el patio de Casa Kaypa"></video>
+          <figcaption class="historia__quote"><em>Construida despacio, para vivirse despacio.</em></figcaption>
+        </figure>
+      </div>
+
+      <div class="container">
+        <dl class="stats reveal" style="--d: 2">
+          <div class="stats__item">
+            <dt>Terreno</dt>
+            <dd>2 500 m²</dd>
+          </div>
+          <div class="stats__item">
+            <dt>Construidos</dt>
+            <dd>600 m²</dd>
+          </div>
+          <div class="stats__item">
+            <dt>Huéspedes</dt>
+            <dd>16</dd>
+          </div>
+          <div class="stats__item">
+            <dt>Habitaciones</dt>
+            <dd>6</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         HABITACIONES · banda crema, imagen + fichas
+         ============================================================ -->
+    <section class="habitaciones" id="habitaciones">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow eyebrow--rule">La casa</p>
+          <h2 class="section-title">Hecha para llegar en grupo.</h2>
+          <p class="section-lead">Seis habitaciones diseñadas para dar comodidad y privacidad a familias y grupos grandes.</p>
+        </header>
+
+        <div class="habitaciones__grid">
+          <!-- Galería de tiras expandibles (adaptación del componente
+               "image-gallery", referencia 21st.dev / CARRUSEL DE FOTOS.docx).
+               Fotografía real de la casa, editada con gradación editorial. -->
+          <div class="gallery reveal" data-gallery role="group" aria-label="Galería de habitaciones y baños">
+            <div class="gallery__strip">
+              <figure class="gallery__item is-active" tabindex="0">
+                <img src="assets/media/rooms/habitacion-1.jpg" alt="Habitación con vigas de madera y salida al jardín" loading="lazy" />
+                <figcaption class="gallery__caption">Habitación 1</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/rooms/habitacion-3.jpg" alt="Habitación luminosa de Casa Kaypa" loading="lazy" />
+                <figcaption class="gallery__caption">Habitación 2</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/rooms/habitacion-4.jpg" alt="Habitación con luz natural" loading="lazy" />
+                <figcaption class="gallery__caption">Habitación 3</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/rooms/habitacion-5.jpg" alt="Habitación acogedora de Casa Kaypa" loading="lazy" />
+                <figcaption class="gallery__caption">Habitación 4</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/rooms/habitacion-6.jpg" alt="Habitación con vista al valle" loading="lazy" />
+                <figcaption class="gallery__caption">Habitación 5</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/rooms/habitacion-2.jpg" alt="Habitación con literas y pared de ladrillo" loading="lazy" />
+                <figcaption class="gallery__caption">Habitación 6</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/baths/bano-3.jpg" alt="Baño con acabados en madera" loading="lazy" />
+                <figcaption class="gallery__caption">Baño 1</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/baths/bano-1.jpg" alt="Baño con lavabo sobre encimera de piedra y ducha de mayólica" loading="lazy" />
+                <figcaption class="gallery__caption">Baño 2</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/baths/bano-4.jpg" alt="Baño con puerta de madera tallada y ducha de piedra" loading="lazy" />
+                <figcaption class="gallery__caption">Baño 3</figcaption>
+              </figure>
+              <figure class="gallery__item" tabindex="0">
+                <img src="assets/media/baths/bano-2.jpg" alt="Baño con pared de piedra y vigas de madera" loading="lazy" />
+                <figcaption class="gallery__caption">Baño 4</figcaption>
+              </figure>
+            </div>
+            <div class="gallery__nav">
+              <button class="cal-nav" type="button" data-gallery-prev aria-label="Foto anterior">
+                <i data-lucide="chevron-left" aria-hidden="true"></i>
+              </button>
+              <button class="cal-nav" type="button" data-gallery-next aria-label="Foto siguiente">
+                <i data-lucide="chevron-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- En phone view estas 3 fichas se convierten en un "scroll
+               card stack" (puerto vanilla del componente GSAP ScrollTrigger
+               de "SCROLL CARD.docx"): el bloque se fija y cada ficha se
+               encoge/rota mientras la siguiente entra por encima al hacer
+               scroll. En tablet/desktop es la rejilla de 3 columnas de
+               siempre (.specs-stack usa display:contents). -->
+          <div class="habitaciones__specs">
+            <div class="specs-stack" data-scroll-cards>
+              <article class="spec-tile reveal" style="--d: 1">
+                <p class="spec-tile__number">6</p>
+                <h3 class="spec-tile__label">Habitaciones</h3>
+                <p class="spec-tile__body">Cálidas, luminosas y con vistas en todos los ambientes.</p>
+              </article>
+              <article class="spec-tile reveal" style="--d: 2">
+                <p class="spec-tile__number">16</p>
+                <h3 class="spec-tile__label">Camas</h3>
+                <p class="spec-tile__body">Hasta 16 huéspedes; grupos más grandes bajo condiciones específicas.</p>
+              </article>
+              <article class="spec-tile reveal" style="--d: 3">
+                <p class="spec-tile__number">4</p>
+                <h3 class="spec-tile__label">Baños completos</h3>
+                <p class="spec-tile__body">Pensados para que nadie espere turno.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ÁREAS COMUNES · bento asimétrico
+         ============================================================ -->
+    <section class="areas" id="areas-comunes">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2 class="section-title">Espacios para compartir.</h2>
+          <p class="section-lead">La casa se organiza alrededor de la mesa, el fuego y el jardín.</p>
+        </header>
+
+        <div class="bento">
+          <!-- Punto fuerte: zona BBQ -->
+          <article class="bento__cell bento__cell--bbq reveal">
+            <video src="assets/media/casa-kaypa-bbq-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la zona BBQ y quincho de Casa Kaypa"></video>
+            <div class="bento__overlay">
+              <i data-lucide="flame" aria-hidden="true"></i>
+              <h3>Zona BBQ</h3>
+              <p>Parrilla uruguaya, horno de barro y una mesa amplia para sobremesas largas.</p>
+            </div>
+          </article>
+
+          <article class="bento__cell bento__cell--piscina reveal" style="--d: 1">
+            <video src="assets/media/casa-kaypa-piscina-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido aéreo por la piscina de 14 metros de Casa Kaypa"></video>
+            <div class="bento__overlay">
+              <i data-lucide="waves" aria-hidden="true"></i>
+              <h3>Piscina de 14 metros</h3>
+              <p>14 × 5 m y 1.50 m de profundidad, para adultos y niños bajo supervisión.</p>
+            </div>
+          </article>
+
+          <article class="bento__cell bento__cell--ninos reveal" style="--d: 2">
+            <video src="assets/media/casa-kaypa-fuente-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Fuente ornamental de pez tallado en piedra de Casa Kaypa"></video>
+            <div class="bento__overlay">
+              <i data-lucide="ferris-wheel" aria-hidden="true"></i>
+              <h3>Para descubrir</h3>
+              <p>Fuente ornamental, esquinas para leer o conversar.</p>
+            </div>
+          </article>
+
+          <article class="bento__cell bento__cell--cocina reveal" style="--d: 1">
+            <video src="assets/media/casa-kaypa-cocina-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la cocina y el comedor de Casa Kaypa"></video>
+            <div class="bento__overlay">
+              <i data-lucide="chef-hat" aria-hidden="true"></i>
+              <h3>Cocina equipada</h3>
+              <p>Refrigeradora, horno, menaje y utensilios disponibles.</p>
+            </div>
+          </article>
+
+          <article class="bento__cell bento__cell--jardines reveal" style="--d: 2">
+            <video src="assets/media/casa-kaypa-jardines-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la entrada y los jardines de Casa Kaypa"></video>
+            <div class="bento__overlay">
+              <i data-lucide="trees" aria-hidden="true"></i>
+              <h3>Espacio y acceso</h3>
+              <p>Senderos, grandes áreas verdes para correr y entrada con estacionamiento para 4 a 5 vehículos.</p>
+            </div>
+          </article>
+
+          <article class="bento__cell bento__cell--sala reveal" style="--d: 3">
+            <video src="assets/media/casa-kaypa-sala-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la sala con chimenea de Casa Kaypa"></video>
+            <div class="bento__overlay">
+              <i data-lucide="armchair" aria-hidden="true"></i>
+              <h3>Sala con chimenea</h3>
+              <p>Chimenea de leña, grandes ventanales y luz natural durante todo el día.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         EXPERIENCIAS · actividades locales · paneles con tinta
+         ============================================================ -->
+    <section class="experiencias" id="experiencias">
+      <svg class="wash wash--experiencias" viewBox="0 0 600 600" aria-hidden="true">
+        <ellipse cx="300" cy="300" rx="210" ry="150" fill="var(--ck-rose-200)" opacity="0.45" filter="url(#wash-soft)"/>
+      </svg>
+      <svg class="wash wash--experiencias-b" viewBox="0 0 600 600" aria-hidden="true">
+        <ellipse cx="300" cy="300" rx="170" ry="150" fill="var(--ck-seafoam-100)" opacity="0.6" filter="url(#wash-edge)"/>
+      </svg>
+
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow eyebrow--rule">Experiencias</p>
+          <h2 class="section-title">Momentos para vivir en Casa Kaypa.</h2>
+          <p class="section-lead">Días al aire libre entre juegos, fuego, movimiento y calma: cada estadía se vive a su propio ritmo.</p>
+        </header>
+
+        <!-- Galería de experiencias: imágenes estáticas de alta calidad
+             (sin efecto de tinta/acuarela; ese efecto vive ahora solo en
+             el Portafolio de Arte). -->
+        <div class="exp-gallery">
+          <figure class="exp-panel reveal">
+            <div class="exp-panel__media">
+              <img src="assets/media/activities/yoga.jpg" alt="Sesión de yoga en el jardín de Casa Kaypa" loading="lazy" />
+            </div>
+            <figcaption>
+              <h3>Yoga al aire libre</h3>
+              <p>Practica entre el césped, los árboles y el aire del valle.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="exp-panel exp-panel--offset reveal" style="--d: 1">
+            <div class="exp-panel__media">
+              <img src="assets/media/activities/natacion.jpg" alt="Piscina de Casa Kaypa para nadar" loading="lazy" />
+            </div>
+            <figcaption>
+              <h3>Natación</h3>
+              <p>14 metros de piscina entre jardines para nadar y refrescarse.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="exp-panel reveal" style="--d: 2">
+            <div class="exp-panel__media">
+              <img src="assets/media/activities/sapito.jpg" alt="Juego de sapito en los jardines" loading="lazy" />
+            </div>
+            <figcaption>
+              <h3>Juegos en familia</h3>
+              <p>Sapito y clásicos de sobremesa para todas las edades.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="exp-panel reveal" style="--d: 1">
+            <div class="exp-panel__media">
+              <img src="assets/media/activities/trampolin.jpg" alt="Trampolín en el jardín para los niños" loading="lazy" />
+            </div>
+            <figcaption>
+              <h3>Trampolín</h3>
+              <p>El rincón favorito de los más chicos, entre el verde.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="exp-panel exp-panel--offset reveal" style="--d: 2">
+            <div class="exp-panel__media">
+              <img src="assets/media/activities/fogata.jpg" alt="Fogata al anochecer en Casa Kaypa" loading="lazy" />
+            </div>
+            <figcaption>
+              <h3>Fogatas al anochecer</h3>
+              <p>Reúnete alrededor del fuego cuando cae la tarde.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="exp-panel reveal" style="--d: 3">
+            <div class="exp-panel__media">
+              <img src="assets/media/activities/parrilla.jpg" alt="Parrilla uruguaya para asados al aire libre" loading="lazy" />
+            </div>
+            <figcaption>
+              <h3>Parrillas y asados</h3>
+              <p>Parrilla uruguaya y horno de barro para largas sobremesas.</p>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="tag-marquee reveal">
+          <div class="tag-marquee__track">
+            <ul class="tag-row" aria-label="Actividades bienvenidas">
+              <li class="tag tag--sage">Reuniones familiares</li>
+              <li class="tag tag--neutral">Cumpleaños</li>
+              <li class="tag tag--sage">Escapadas románticas</li>
+              <li class="tag tag--neutral">Retiros</li>
+              <li class="tag tag--sage">Trabajo remoto</li>
+              <li class="tag tag--neutral">Carpintería</li>
+              <li class="tag tag--sage">Lectura</li>
+              <li class="tag tag--neutral">Descanso</li>
+              <li class="tag tag--sage">Yoga al aire libre</li>
+              <li class="tag tag--neutral">Noches de estrellas</li>
+              <li class="tag tag--sage">Picnics en el jardín</li>
+              <li class="tag tag--neutral">Meditación</li>
+              <li class="tag tag--sage">Arte y pintura</li>
+              <li class="tag tag--neutral">Excursiones</li>
+              <li class="tag tag--sage">Fotografía</li>
+              <li class="tag tag--neutral">Desconexión digital</li>
+              <li class="tag tag--sage">Celebraciones</li>
+              <li class="tag tag--neutral">Bienestar</li>
+            </ul>
+            <ul class="tag-row" aria-hidden="true">
+              <li class="tag tag--sage">Reuniones familiares</li>
+              <li class="tag tag--neutral">Cumpleaños</li>
+              <li class="tag tag--sage">Escapadas románticas</li>
+              <li class="tag tag--neutral">Retiros</li>
+              <li class="tag tag--sage">Trabajo remoto</li>
+              <li class="tag tag--neutral">Carpintería</li>
+              <li class="tag tag--sage">Lectura</li>
+              <li class="tag tag--neutral">Descanso</li>
+              <li class="tag tag--sage">Yoga al aire libre</li>
+              <li class="tag tag--neutral">Noches de estrellas</li>
+              <li class="tag tag--sage">Picnics en el jardín</li>
+              <li class="tag tag--neutral">Meditación</li>
+              <li class="tag tag--sage">Arte y pintura</li>
+              <li class="tag tag--neutral">Excursiones</li>
+              <li class="tag tag--sage">Fotografía</li>
+              <li class="tag tag--neutral">Desconexión digital</li>
+              <li class="tag tag--sage">Celebraciones</li>
+              <li class="tag tag--neutral">Bienestar</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PORTAFOLIO DE ARTE · obras reales de la casa
+         Efecto de tinta/acuarela EXCLUSIVO de esta sección: vista previa
+         desaturada antes del hover; al pasar el cursor, la obra se revela
+         a todo color con el pincel (data-ink-reveal).
+         ============================================================ -->
+    <section class="portafolio" id="portafolio">
+      <div class="container">
+        <header class="section-head portafolio__head reveal">
+          <p class="eyebrow eyebrow--rule">Portafolio de arte</p>
+          <h2 class="section-title">Un lugar que inspira a crear.</h2>
+          <p class="section-lead">Piezas nacidas y reunidas en Casa Kaypa: pintura, cerámica, talla y escultura. Pasa el cursor sobre cada obra para revelarla a todo color.</p>
+        </header>
+
+        <div class="art-wall">
+          <figure class="art-frame reveal" data-ink-reveal>
+            <img src="assets/media/art/cuadro-ave.jpg" alt="Óleo de dos aves rojas entre el follaje" loading="lazy" />
+            <figcaption><span class="art-frame__no">01</span> Aves · óleo sobre lienzo</figcaption>
+          </figure>
+          <figure class="art-frame reveal" style="--d: 1" data-ink-reveal>
+            <img src="assets/media/art/jarron.jpg" alt="Jarrón de cerámica pintado a mano con cartuchos" loading="lazy" />
+            <figcaption><span class="art-frame__no">02</span> Jarrón · cerámica pintada a mano</figcaption>
+          </figure>
+          <figure class="art-frame reveal" style="--d: 2" data-ink-reveal>
+            <img src="assets/media/art/gallo-caoba.jpg" alt="Escultura de gallo tallado en caoba" loading="lazy" />
+            <figcaption><span class="art-frame__no">03</span> Gallo · talla en caoba</figcaption>
+          </figure>
+          <figure class="art-frame reveal" style="--d: 1" data-ink-reveal>
+            <img src="assets/media/art/cuadro-isabel.jpg" alt="Acuarela de una tapada limeña en la calle" loading="lazy" />
+            <figcaption><span class="art-frame__no">04</span> Tapada limeña · acuarela</figcaption>
+          </figure>
+          <figure class="art-frame reveal" style="--d: 2" data-ink-reveal>
+            <img src="assets/media/art/alambres.jpg" alt="Rostro cubista hecho con alambre en un marco" loading="lazy" />
+            <figcaption><span class="art-frame__no">05</span> Rostro · escultura en alambre</figcaption>
+          </figure>
+          <figure class="art-frame reveal" style="--d: 3" data-ink-reveal>
+            <img src="assets/media/art/cultura.jpg" alt="Figuras ancestrales talladas en madera" loading="lazy" />
+            <figcaption><span class="art-frame__no">06</span> Rostros ancestrales · talla en madera</figcaption>
+          </figure>
+          <figure class="art-frame reveal" style="--d: 4" data-ink-reveal>
+            <img src="assets/media/art/clip-gancho.jpg" alt="Escultura de una pinza de ropa gigante en madera" loading="lazy" />
+            <figcaption><span class="art-frame__no">07</span> Pinza gigante · escultura en madera</figcaption>
+          </figure>
+        </div>
+
+        <p class="portafolio__note reveal">¿Creaste algo durante tu estadía? Nos encantaría sumarlo a este portafolio.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FILOSOFÍA · corte editorial en carbón
+         ============================================================ -->
+    <section class="filosofia">
+      <div class="container filosofia__inner reveal">
+        <span class="rule-short" aria-hidden="true"></span>
+        <p class="filosofia__quote"><em>Desconectar para reconectar.</em></p>
+        <p class="filosofia__line">Vivir más despacio. Compartir momentos. Crear recuerdos.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         RESEÑAS · testimonio minimal (una voz a la vez)
+         Contenido de ejemplo: los textos, nombres y calificaciones
+         se editarán manualmente más adelante.
+         ============================================================ -->
+    <section class="resenas" id="resenas">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2 class="section-title">Lo que se llevan nuestros huéspedes.</h2>
+        </header>
+
+        <div class="testimonial reveal" data-testimonial>
+          <div class="testimonial__quotes">
+            <blockquote class="testimonial__quote is-active">
+              <p>"Hermosa la casa, todo muy cómodo: dormitorios, baños y todas las instalaciones en general. El personal muy amable, la cocina súper equipada, y hay una bodega surtida también muy cerquita. Tuvimos días de sol y piscina en pleno invierno en Lima. Isabel súper atenta a todo también. Lo recomiendo 100%."</p>
+            </blockquote>
+            <blockquote class="testimonial__quote">
+              <p>"La casa es hermosa y grande, muy bien cuidada y decorada. Tiene todos los implementos que necesitas para una estancia linda con la familia o amigos. Isabel fue una anfitriona muy atenta desde antes de que llegáramos a la casa hasta el último día, y el señor Francisco, el vigilante, muy atento y servicial. Realmente lo recomiendo y esperamos regresar pronto."</p>
+            </blockquote>
+            <blockquote class="testimonial__quote">
+              <p>"Muchas gracias por habernos alquilado tu hermosa casa de campo en Santa Eulalia. Fue un fin de semana muy especial para mi familia. La casa fue muy acogedora y realmente superó nuestras expectativas; todo estuvo muy ordenado y limpio. Además, nuestros dos cachorros se divirtieron muchísimo y disfrutaron cada momento. Gracias por tu hospitalidad y por hacer que nuestra estadía fuera tan agradable."</p>
+            </blockquote>
+          </div>
+
+          <div class="testimonial__row">
+            <div class="testimonial__avatars" role="tablist" aria-label="Elegir reseña">
+              <button class="testimonial__avatar is-active" type="button" role="tab" aria-selected="true" aria-label="Reseña de Luciana">
+                <span class="monogram monogram--sage" aria-hidden="true">L</span>
+              </button>
+              <button class="testimonial__avatar" type="button" role="tab" aria-selected="false" aria-label="Reseña de Pierina">
+                <span class="monogram monogram--rose" aria-hidden="true">P</span>
+              </button>
+              <button class="testimonial__avatar" type="button" role="tab" aria-selected="false" aria-label="Reseña de Pilar">
+                <span class="monogram monogram--seafoam" aria-hidden="true">P</span>
+              </button>
+            </div>
+
+            <span class="testimonial__divider" aria-hidden="true"></span>
+
+            <div class="testimonial__authors">
+              <div class="testimonial__author is-active">
+                <span class="testimonial__name">Luciana</span>
+                <span class="testimonial__meta">Estadía en familia · 5,0</span>
+              </div>
+              <div class="testimonial__author">
+                <span class="testimonial__name">Pierina</span>
+                <span class="testimonial__meta">Escapada con amigos y familia · 5,0</span>
+              </div>
+              <div class="testimonial__author">
+                <span class="testimonial__name">Pilar</span>
+                <span class="testimonial__meta">Visita con los engreídos de cuatro patas · 5,0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         RESERVAS · marco de tinta + CTA
+         ============================================================ -->
+    <section class="reservas" id="reservas">
+      <svg class="wash wash--reservas" viewBox="0 0 600 600" aria-hidden="true">
+        <ellipse cx="300" cy="300" rx="190" ry="150" fill="var(--ck-seafoam-100)" opacity="0.55" filter="url(#wash-soft)"/>
+      </svg>
+
+      <div class="container">
+        <div class="reservas__frame reveal">
+          <!-- Fondo de video en bucle: río de Santa Eulalia (Higgsfield).
+               Reproducción continua estándar (sin scroll). Al aprobar el
+               720p, sustituir el archivo por la versión 4K en la misma ruta.
+               El wash marfil garantiza la legibilidad del calendario. -->
+          <video class="reservas__bg" autoplay muted loop playsinline preload="auto" aria-hidden="true"
+                 poster="assets/media/casa-kaypa-dia.jpeg">
+            <source src="assets/media/casa-kaypa-rio-720.mp4" type="video/mp4" />
+          </video>
+          <div class="reservas__bg-wash" aria-hidden="true"></div>
+
+          <p class="eyebrow eyebrow--rule">Reservas</p>
+          <h2 class="section-title">Planifica tu estadía.</h2>
+
+          <!-- Calendario de disponibilidad (solo lectura, sincronizado con Airbnb vía iCal) -->
+          <div class="availability" data-availability>
+            <div class="availability__head">
+              <button class="cal-nav" type="button" data-cal-prev aria-label="Mes anterior">
+                <i data-lucide="chevron-left" aria-hidden="true"></i>
+              </button>
+              <h3 class="availability__title">Disponibilidad</h3>
+              <button class="cal-nav" type="button" data-cal-next aria-label="Mes siguiente">
+                <i data-lucide="chevron-right" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <div class="availability__months" data-cal-months aria-live="polite"></div>
+
+            <div class="availability__legend" aria-hidden="true">
+              <span class="availability__key"><span class="availability__swatch availability__swatch--free"></span>Disponible</span>
+              <span class="availability__key"><span class="availability__swatch availability__swatch--blocked"></span>Ocupado</span>
+            </div>
+
+            <p class="availability__note">Revisa las fechas disponibles en el calendario y haz clic en "Reservar ahora" para completar tu estadía en Airbnb.</p>
+          </div>
+
+          <dl class="facts">
+            <div class="facts__item is-desktop-only">
+              <dt>Capacidad</dt>
+              <dd>Hasta 16 huéspedes</dd>
+            </div>
+            <div class="facts__item is-desktop-only">
+              <dt>La casa</dt>
+              <dd>6 habitaciones y 4 baños</dd>
+            </div>
+            <div class="facts__item">
+              <dt>Estacionamiento</dt>
+              <dd>4 a 5 vehículos</dd>
+            </div>
+            <div class="facts__item">
+              <dt>Ubicación</dt>
+              <dd class="is-desktop-only">A poca distancia de Lima</dd>
+              <dd class="is-mobile-only">Santa Eulalia · a dos horas de Lima</dd>
+            </div>
+          </dl>
+
+          <p class="reservas__note is-desktop-only">Se aceptan grupos más grandes bajo condiciones específicas. La reserva se gestiona a través de Airbnb.</p>
+          <p class="reservas__note is-mobile-only">Se aceptan grupos de más de 16 personas bajo condiciones específicas.</p>
+
+          <a class="btn btn--primary btn--lg" href="https://airbnb.com.pe/h/casakaypa" target="_blank" rel="noopener noreferrer">Reservar ahora</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       PIE · crema, lockup + navegación
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div class="site-footer__brand">
+        <svg class="site-footer__mark" viewBox="0 0 660 400" fill="none" role="img" aria-label="Casa Kaypa"><use href="#ck-isotype"/></svg>
+        <p class="site-footer__tagline">Un refugio de campo boutique a las afueras de Lima.</p>
+
+        <div class="site-footer__social">
+          <a href="https://airbnb.com.pe/h/casakaypa" target="_blank" rel="noopener noreferrer" aria-label="Visitar Casa Kaypa en Airbnb">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.001 18.275c-1.353-1.697-2.148-3.184-2.413-4.457-.263-1.027-.16-1.848.291-2.465.477-.71 1.188-1.056 2.121-1.056s1.643.345 2.12 1.063c.446.61.558 1.432.286 2.465-.291 1.298-1.085 2.785-2.412 4.458zm9.601 1.14c-.185 1.246-1.034 2.28-2.2 2.783-2.253.98-4.483-.583-6.392-2.704 3.157-3.951 3.74-7.028 2.385-9.018-.795-1.14-1.933-1.695-3.394-1.695-2.944 0-4.563 2.49-3.927 5.382.37 1.565 1.352 3.343 2.917 5.332-.98 1.085-1.91 1.856-2.732 2.333-.636.344-1.245.558-1.828.609-2.679.399-4.778-2.2-3.825-4.88.132-.345.395-.98.845-1.961l.025-.053c1.464-3.178 3.242-6.79 5.285-10.795l.053-.132.58-1.116c.45-.822.635-1.19 1.351-1.643.346-.21.77-.315 1.246-.315.954 0 1.698.558 2.016 1.007.158.239.345.557.582.953l.558 1.089.08.159c2.041 4.004 3.821 7.608 5.279 10.794l.026.025.533 1.22.318.764c.243.613.294 1.222.213 1.858zm1.22-2.39c-.186-.583-.505-1.271-.9-2.094v-.03c-1.889-4.006-3.642-7.608-5.307-10.844l-.111-.163C15.317 1.461 14.468 0 12.001 0c-2.44 0-3.476 1.695-4.535 3.898l-.081.16c-1.669 3.236-3.421 6.843-5.303 10.847v.053l-.559 1.22c-.21.504-.317.768-.345.847C-.172 20.74 2.611 24 5.98 24c.027 0 .132 0 .265-.027h.372c1.75-.213 3.554-1.325 5.384-3.317 1.829 1.989 3.635 3.104 5.382 3.317h.372c.133.027.239.027.265.027 3.37.003 6.152-3.261 4.802-6.975z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/casakaypa/" target="_blank" rel="noopener noreferrer" aria-label="Visitar Casa Kaypa en Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Navegación del pie">
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#habitaciones">Habitaciones</a></li>
+          <li><a href="#reservas">Reservas</a></li>
+          <li><a href="#areas-comunes">Áreas comunes</a></li>
+          <li><a href="#experiencias">Experiencias</a></li>
+          <li><a href="#portafolio">Portafolio de Arte</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__meta">
+        <p>Santa Eulalia, Lima, Perú</p>
+        <p>© 2026 Casa Kaypa. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Grano de papel (capa fija, decorativa) -->
+  <div class="paper-grain" aria-hidden="true"></div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="js/ink-reveal.js" defer></script>
+  <script src="js/day-night.js" defer></script>
+  <script src="js/gallery.js" defer></script>
+  <script src="js/word-rotor.js" defer></script>
+  <script src="js/availability.js" defer></script>
+  <script src="js/testimonial.js" defer></script>
+  <script src="js/text-appear.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

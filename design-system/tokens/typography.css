@@ -1,0 +1,62 @@
+/* ============================================================
+   Casa Kaypa · Typography Tokens
+   One family only: Boska — a high-contrast display serif.
+   Boska carries the brand's editorial, unhurried, hand-touched
+   voice. Pair generous line-height with wide letter-spacing on
+   the all-caps wordmark style seen in the logo.
+   ============================================================ */
+
+:root {
+  /* Family — Boska everywhere. Serif fallbacks only for FOUT. */
+  --font-family:  'Boska', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-display: var(--font-family);
+  --font-body:    var(--font-family);
+
+  /* Weights (Boska ships 200–900) */
+  --fw-extralight: 200; /* @kind font */
+  --fw-light:      300; /* @kind font */
+  --fw-regular:    400; /* @kind font */
+  --fw-medium:     500; /* @kind font */
+  --fw-bold:       700; /* @kind font */
+  --fw-black:      900; /* @kind font */
+
+  /* Type scale — 1.25 (major third), display steps stretch wider.
+     rem base = 16px. */
+  --fs-display-xl: 5.25rem;   /* 84px · hero wordmark            */
+  --fs-display-l:  3.75rem;   /* 60px · page title               */
+  --fs-display-m:  3rem;      /* 48px                            */
+  --fs-h1:         2.25rem;   /* 36px                            */
+  --fs-h2:         1.75rem;   /* 28px                            */
+  --fs-h3:         1.375rem;  /* 22px                            */
+  --fs-body-lg:    1.25rem;   /* 20px · lead paragraphs          */
+  --fs-body:       1.0625rem; /* 17px · default body             */
+  --fs-body-sm:    0.9375rem; /* 15px                            */
+  --fs-caption:    0.8125rem; /* 13px                            */
+  --fs-overline:   0.75rem;   /* 12px · all-caps labels          */
+
+  /* Line heights */
+  --lh-tight:   1.05; /* @kind font */
+  --lh-snug:    1.2; /* @kind font */
+  --lh-normal:  1.5; /* @kind font */
+  --lh-relaxed: 1.7; /* @kind font */
+
+  /* Letter-spacing */
+  --ls-tighter: -0.02em; /* @kind font */
+  --ls-tight:   -0.01em; /* @kind font */
+  --ls-normal:  0; /* @kind font */
+  --ls-wide:    0.08em; /* @kind font */
+  --ls-wider:   0.18em; /* @kind font */
+  --ls-widest:  0.32em; /* @kind font */
+
+  /* Semantic roles */
+  --text-hero-size:      var(--fs-display-xl);
+  --text-hero-weight:    var(--fw-light);
+  --text-hero-tracking:  var(--ls-tighter);
+
+  --text-title-size:     var(--fs-display-l);
+  --text-title-weight:   var(--fw-regular);
+
+  --text-heading-weight: var(--fw-medium);
+  --text-body-weight:    var(--fw-regular);
+  --text-overline-weight:var(--fw-medium);
+}

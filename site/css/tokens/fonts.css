@@ -1,0 +1,15 @@
+/* ============================================================
+   Casa Kaypa · Fonts
+   Typeface: Boska (Barbara Bigosińska · Indian Type Foundry)
+   Loaded from the Fontshare v2 CDN as the real, unmodified Boska.
+   Family name exposed: "Boska" (weights 200–900, normal + italic).
+
+   NOTE: The original self-hosting stylesheet the client supplied is
+   preserved at assets/fonts/boska.css. It references binaries
+   (../fonts/Boska-*.woff2) that were NOT included in the upload.
+   To self-host, drop those .woff2/.woff/.ttf files into assets/fonts/
+   and swap the @import below for: @import "../assets/fonts/boska.css";
+   ============================================================ */
+
+@import url('https://api.fontshare.com/v2/css?f[]=boska@200,300,400,500,700,900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=boska@401&display=swap');

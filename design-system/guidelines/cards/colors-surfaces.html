@@ -1,0 +1,45 @@
+<!-- @dsCard group="Colors" viewport="700x200" name="Backgrounds & Surfaces" subtitle="Layering rule: Ivory canvas → Cream wells → White cards" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); font-family:var(--font-body); color:var(--text-primary); padding:22px; }
+  .stack { display:flex; gap:16px; }
+  .card { flex:1; border-radius:var(--radius-lg); padding:18px; border:1px solid var(--border-default); }
+  .lbl { font-size:13px; font-weight:var(--fw-medium); }
+  .tok { font-size:11.5px; color:var(--text-muted); font-family:var(--font-body); letter-spacing:.03em; }
+  .well { margin-top:12px; border-radius:var(--radius-md); padding:14px; }
+  .mini { font-size:11.5px; color:var(--text-secondary); }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="card" style="background:var(--surface-page)">
+      <div class="lbl">Page canvas</div>
+      <div class="tok">--surface-page · Warm Ivory</div>
+      <div class="well" style="background:var(--surface-sunken)">
+        <div class="mini">--surface-sunken · Cream well</div>
+        <div class="well" style="background:var(--surface-raised); box-shadow:var(--shadow-sm)">
+          <div class="mini">--surface-raised · White card</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="background:var(--surface-inverse); border-color:transparent">
+      <div class="lbl" style="color:var(--text-on-dark)">Inverse section</div>
+      <div class="tok" style="color:rgba(251,249,244,.6)">--surface-inverse · Charcoal</div>
+      <div class="well" style="background:rgba(251,249,244,.08)">
+        <div class="mini" style="color:rgba(251,249,244,.7)">Reversed content for editorial breaks</div>
+      </div>
+    </div>
+    <div class="card" style="background:var(--surface-tint-sage); border-color:transparent">
+      <div class="lbl">Sage tint</div>
+      <div class="tok">--surface-tint-sage</div>
+      <div class="well" style="background:var(--surface-tint-rose)">
+        <div class="mini">--surface-tint-rose · seasonal accents</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

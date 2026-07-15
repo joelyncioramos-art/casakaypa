@@ -1,0 +1,45 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Tags, Eyebrow & Divider" subtitle="Labels & the signature hairline rule" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); padding:24px; color:var(--text-primary); font-family:var(--font-body); }
+  #root { display:flex; flex-direction:column; gap:22px; }
+  .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  h3 { margin:6px 0 0; font-weight:var(--fw-regular); font-size:26px; letter-spacing:var(--ls-tight); }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Tag, Eyebrow, Divider } = window.CasaKaypaDesignSystem_5938b5;
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <>
+        <div className="row">
+          <Tag tone="sage">Wi-Fi</Tag>
+          <Tag tone="seafoam">Piscina</Tag>
+          <Tag tone="terracotta">Fogata</Tag>
+          <Tag tone="rose">Spa</Tag>
+          <Tag tone="neutral">Parking</Tag>
+          <Tag tone="outline">Verano</Tag>
+        </div>
+        <div>
+          <Eyebrow>Boutique retreat</Eyebrow>
+          <h3>Weekends made meaningful</h3>
+        </div>
+        <div style={{display:'flex',flexDirection:'column',gap:'14px'}}>
+          <Divider variant="short" />
+          <Divider />
+          <Divider variant="soft" />
+        </div>
+      </>
+    );
+  </script>
+</body>
+</html>

@@ -1,0 +1,1782 @@
+/* ============================================================
+   Casa Kaypa · Sitio web
+   Estilos de página construidos sobre los tokens del sistema
+   de diseño (css/styles.css). Sin valores fuera del sistema
+   salvo transparencias puntuales de la tarjeta hero y scrims.
+   ============================================================ */
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-padding-top: 88px; /* compensa la cabecera fija en anclas */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: var(--text-body-weight);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3, p, dl, dd, dt, ul, figure { margin: 0; padding: 0; }
+ul { list-style: none; }
+
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
+
+:focus-visible {
+  outline: var(--ring-width) solid var(--focus-ring);
+  outline-offset: var(--ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+.container {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+/* Capa de definiciones SVG compartidas */
+.svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- Utilidades tipográficas ---------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-overline);
+  font-weight: var(--text-overline-weight);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--text-brand);
+}
+
+.eyebrow--rule::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.section-title {
+  font-size: clamp(var(--fs-h1), 4vw, var(--fs-display-m));
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  max-width: 22ch;
+}
+
+.section-lead {
+  color: var(--text-secondary);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-normal);
+  max-width: var(--measure);
+}
+
+.section-head {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.rule-short {
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--ck-terracotta-500);
+}
+
+/* ---------- Botones (espejo del componente Button del DS) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 26px;
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  text-decoration: none;
+  line-height: 1;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition-soft);
+  white-space: nowrap;
+}
+
+.btn--lg { padding: 16px 38px; font-size: var(--fs-body); }
+
+.btn--primary {
+  background: var(--accent-primary);
+  color: var(--text-on-accent);
+}
+.btn--primary:hover { background: var(--accent-primary-hover); color: var(--text-on-accent); }
+.btn--primary:active { background: var(--accent-primary-press); transform: translateY(1px); }
+
+.btn--outline-light {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-ink);
+}
+.btn--outline-light:hover {
+  background: var(--ck-charcoal);
+  color: var(--text-on-dark);
+}
+.btn--outline-light:active { transform: translateY(1px); }
+
+/* ---------- Cabecera ---------- */
+#top-sentinel { position: absolute; top: 0; height: 1px; width: 1px; }
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--ck-warm-ivory) 92%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: var(--transition-color), box-shadow var(--dur-base) var(--ease-out);
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: var(--border-default);
+  box-shadow: var(--shadow-xs);
+}
+
+.site-header__inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+/* Isotipo (solo icono) en la cabecera */
+.brand__mark {
+  display: block;
+  width: 67px;
+  height: 41px;
+  color: var(--ck-charcoal);
+  transition: var(--transition-color);
+}
+
+.brand:hover .brand__mark { color: var(--ck-sage-700); }
+
+/* Trazos del isotipo compartido (mismo lenguaje que el dibujo del hero) */
+.iso-stroke,
+.logo-draw__stroke {
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.6px;
+}
+
+.iso-stroke--fine,
+.logo-draw__stroke--fine { stroke-width: 1.1px; }
+
+.site-nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.site-nav__list a {
+  font-size: var(--fs-overline);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  text-decoration: none;
+  color: var(--text-primary);
+  padding-block: var(--space-2);
+  border-bottom: 1px solid transparent;
+  transition: var(--transition-color);
+}
+
+.site-nav__list a:hover {
+  color: var(--ck-sage-700);
+  border-bottom-color: var(--ck-sage-500);
+}
+
+/* Botón hamburguesa */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border-ink);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition-soft);
+}
+
+.nav-toggle__line {
+  display: block;
+  height: 1.5px;
+  width: 100%;
+  background: var(--ck-charcoal);
+  transition: var(--transition-transform);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:first-child { transform: translateY(4.25px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:last-child { transform: translateY(-4.25px) rotate(-45deg); }
+
+/* Menú móvil */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: var(--surface-sunken);
+  display: grid;
+  place-items: center;
+  padding: var(--space-8) var(--space-5);
+}
+
+.mobile-menu[hidden] { display: none; }
+
+.mobile-menu__list { display: grid; gap: var(--space-5); text-align: center; }
+
+.mobile-menu__list a {
+  font-size: clamp(var(--fs-h2), 6vw, var(--fs-display-m));
+  font-weight: var(--fw-light);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition-color);
+}
+
+.mobile-menu__list a:hover { color: var(--ck-terracotta-600); }
+
+body.menu-open { overflow: hidden; }
+
+/* ---------- Hero cinemático (día→noche al hacer scroll) ---------- */
+/* La pista define el recorrido del frote; el hero queda fijo dentro */
+.hero-runway {
+  position: relative;
+  height: 300vh;
+}
+
+/* Proporción cinematográfica: banda panorámica bajo la cabecera,
+   con "paspartú" de marfil en pantallas altas. Si el contenido
+   necesita más alto, la banda crece (min-height) sin recortar. */
+.hero {
+  --header-h: 72px;
+  /* svh (no dvh): la barra de URL móvil no redimensiona el hero
+     al ocultarse/mostrarse — evita saltos ajenos al scroll. */
+  --hero-h: clamp(620px, 56vw, calc(100svh - var(--header-h)));
+  position: sticky;
+  top: calc(var(--header-h) + max(0px, (100svh - var(--header-h) - var(--hero-h)) / 2));
+  min-height: var(--hero-h);
+  display: grid;
+  place-items: center;
+  padding: var(--space-6) var(--space-5);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Escenario de capas día/noche */
+.dn-stage {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(0);
+}
+
+.dn-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+/* La "noche": misma fotografía con gradación nocturna. El motor JS
+   solo anima su opacidad (y la del tinte), todo compuesto en GPU. */
+.dn-layer--night {
+  opacity: 0;
+  filter: brightness(0.34) saturate(0.55) contrast(1.05);
+}
+
+.dn-tint {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(180deg, rgba(22, 30, 52, 0.85) 0%, rgba(24, 28, 44, 0.55) 55%, rgba(20, 22, 34, 0.75) 100%);
+  mix-blend-mode: multiply;
+  will-change: opacity;
+}
+
+/* Video Higgsfield (se inyecta al definir data-video-src) */
+.dn-video { object-fit: cover; opacity: 0; transition: opacity var(--dur-slower) var(--ease-out); }
+.dn-stage--video .dn-video { opacity: 1; }
+.dn-stage--video .dn-layer--day,
+.dn-stage--video .dn-layer--night,
+.dn-stage--video .dn-tint { opacity: 0 !important; }
+
+/* En reposo el escenario queda perfectamente quieto: el movimiento
+   proviene únicamente del scroll (sin ken-burns ni derivas). */
+
+/* Sin animaciones: hero clásico, día estático */
+@media (prefers-reduced-motion: reduce) {
+  .hero-runway { height: auto; }
+  .hero { position: relative; top: auto; }
+  .dn-layer--night,
+  .dn-tint { display: none; }
+}
+
+.hero__media,
+.hero__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__media img { object-fit: cover; }
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  /* Scrim de protección: carbón → transparente, baja opacidad (regla de marca) */
+  background: linear-gradient(180deg, rgba(43, 43, 43, 0.28) 0%, rgba(43, 43, 43, 0.10) 45%, rgba(43, 43, 43, 0.32) 100%);
+}
+
+.hero__card {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  text-align: center;
+  padding: clamp(var(--space-6), 5vw, var(--space-8));
+  background: color-mix(in srgb, var(--ck-neutral-0) 82%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in srgb, var(--ck-charcoal) 14%, transparent);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .hero__card { background: var(--ck-neutral-0); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* Marca visible en el hero: eco tipográfico del lockup del logo */
+.hero__wordmark {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-widest);
+  color: var(--text-primary);
+}
+
+.hero__wordmark::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 1px;
+  margin: var(--space-3) auto 0;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+.hero__title {
+  font-size: clamp(2.2rem, 5.4vw, 4.75rem);
+  font-weight: var(--text-hero-weight);
+  letter-spacing: var(--text-hero-tracking);
+  line-height: 1.1;
+  padding-bottom: var(--space-1); /* reserva para descendentes en itálica */
+}
+
+.hero__title em { font-style: italic; font-weight: var(--fw-regular); }
+
+.hero__sub {
+  color: var(--text-secondary);
+  font-size: clamp(1.125rem, 1.6vw, 1.25rem);
+  line-height: var(--lh-normal);
+  max-width: 44ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+/* Isotipo con animación de trazo (line-draw, gesto de marca) */
+.hero__mark {
+  display: grid;
+  justify-items: center;
+  margin-top: var(--space-2);
+}
+
+.hero__mark svg {
+  width: 128px;
+  height: auto;
+  color: var(--ck-charcoal);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-draw__stroke {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    /* Ritmo pausado: el trazo se asienta como la filosofía de la casa */
+    animation: logo-draw 2.1s var(--ease-in-out) both;
+    animation-delay: var(--draw-delay, 0.6s);
+  }
+
+  .logo-draw__stroke--fine {
+    animation-duration: 1.4s;
+  }
+}
+
+@keyframes logo-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.hero__edge {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: clamp(32px, 5vw, 70px);
+  z-index: 1;
+}
+
+/* ---------- Manchas de acuarela ---------- */
+.wash {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wash--historia { top: -8%; right: -14%; width: min(46vw, 560px); height: auto; }
+.wash--experiencias { top: 4%; left: -16%; width: min(44vw, 540px); }
+.wash--experiencias-b { bottom: -6%; right: -12%; width: min(36vw, 440px); }
+.wash--reservas { top: -10%; left: -14%; width: min(40vw, 480px); }
+
+/* ---------- Historia ---------- */
+.historia {
+  position: relative;
+  padding-block: var(--space-10);
+  overflow: hidden;
+}
+
+.historia__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: var(--space-8);
+  align-items: center;
+  margin-bottom: var(--space-9);
+}
+
+.historia__text { display: grid; gap: var(--space-5); }
+
+.historia__text p {
+  color: var(--text-secondary);
+  font-size: var(--fs-body-lg);
+  max-width: var(--measure);
+  line-height: var(--lh-relaxed);
+}
+
+.historia__media { margin-top: 0; }
+
+.historia__media img,
+.historia__media video {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.historia__quote {
+  margin-top: var(--space-4);
+  font-size: var(--fs-h3);
+  color: var(--ck-terracotta-600);
+  line-height: 1.4;
+  padding-bottom: var(--space-1);
+}
+
+/* Banda de cifras */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-ink);
+}
+
+.stats__item {
+  padding: var(--space-6) var(--space-5) 0 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.stats__item dt {
+  font-size: var(--fs-overline);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--text-muted);
+}
+
+.stats__item dd {
+  font-size: clamp(var(--fs-display-m), 4vw, var(--fs-display-l));
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-tighter);
+  line-height: var(--lh-tight);
+}
+
+/* ---------- Habitaciones ---------- */
+.habitaciones {
+  background: var(--surface-sunken);
+  padding-block: var(--space-10);
+}
+
+/* Galería a lo ancho arriba; fichas de datos debajo */
+.habitaciones__grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+/* ---------- Galería de tiras expandibles ---------- */
+.gallery {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--space-4);
+}
+
+.gallery__strip {
+  display: flex;
+  gap: var(--space-2);
+  height: clamp(420px, 46vw, 560px);
+}
+
+.gallery__item {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--surface-sunken);
+  transition: flex var(--dur-slow) var(--ease-out);
+}
+
+.gallery__item img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery__item.is-active { flex: 6; }
+
+@media (hover: hover) and (pointer: fine) {
+  .gallery__item:hover { flex: 6; }
+  /* Mientras se explora otra tira, la activa cede su sitio */
+  .gallery__strip:hover .gallery__item.is-active:not(:hover) { flex: 1.4; }
+}
+
+.gallery__caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-6) var(--space-5) var(--space-4);
+  background: linear-gradient(180deg, rgba(43, 43, 43, 0) 0%, rgba(43, 43, 43, 0.55) 100%);
+  color: var(--text-on-dark);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.gallery__item.is-active .gallery__caption,
+.gallery__item:hover .gallery__caption { opacity: 1; }
+
+.gallery__nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery__item,
+  .gallery__caption { transition: none; }
+}
+
+.habitaciones__specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+/* Envoltorio del "scroll card stack". En tablet/desktop es transparente
+   (display:contents) para que las 3 fichas sigan participando en la
+   rejilla de 3 columnas; en phone view se convierte en el escenario
+   fijo (ver bloque @media ≤640px y initScrollCards en main.js). */
+.specs-stack { display: contents; }
+
+.spec-tile {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  padding: var(--space-6);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-5);
+  row-gap: var(--space-1);
+  align-items: baseline;
+}
+
+.spec-tile__number {
+  grid-row: span 2;
+  font-size: var(--fs-display-m);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-tighter);
+  line-height: 1;
+  color: var(--ck-sage-700);
+}
+
+.spec-tile__label {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+}
+
+.spec-tile__body {
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+}
+
+/* ---------- Áreas comunes · bento ---------- */
+.areas { padding-block: var(--space-10); }
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: var(--space-5);
+}
+
+.bento__cell {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.bento__cell h3 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+}
+
+.bento__cell p {
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+}
+
+.bento__cell .lucide {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.5;
+  color: var(--ck-sage-600);
+}
+
+/* Celda destacada: BBQ (imagen con texto superpuesto) */
+.bento__cell--bbq {
+  grid-column: span 7;
+  grid-row: span 2;
+  min-height: 420px;
+}
+
+.bento__cell--bbq img,
+.bento__cell--bbq video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bento__overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-6);
+  display: grid;
+  gap: var(--space-2);
+  background: linear-gradient(180deg, rgba(43, 43, 43, 0) 0%, rgba(43, 43, 43, 0.66) 100%);
+  color: var(--text-on-dark);
+}
+
+.bento__overlay h3 { color: var(--text-on-dark); }
+.bento__overlay p { color: color-mix(in srgb, var(--ck-warm-ivory) 78%, transparent); max-width: 46ch; }
+.bento__overlay .lucide { color: var(--ck-warm-ivory); }
+
+/* Jardines: video vertical con texto superpuesto, celda alta como la piscina */
+.bento__cell--jardines {
+  grid-column: span 5;
+  grid-row: span 3;
+  min-height: 680px;
+}
+
+/* Piscina: video vertical con texto superpuesto, celda destacada más alta */
+.bento__cell--piscina {
+  grid-column: span 5;
+  grid-row: span 3;
+  min-height: 680px;
+}
+
+.bento__caption {
+  padding: var(--space-5) var(--space-6);
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Niños: video de la fuente, celda pequeña */
+.bento__cell--ninos {
+  min-height: 260px;
+}
+
+/* Sala con chimenea: video destacado, celda grande y alta */
+.bento__cell--sala {
+  grid-column: span 7;
+  grid-row: span 3;
+  min-height: 680px;
+  background: var(--surface-tint-sage);
+}
+
+.bento__cell--cocina {
+  min-height: 260px;
+}
+
+.bento__cell--sala video,
+.bento__cell--cocina video,
+.bento__cell--piscina video,
+.bento__cell--jardines video,
+.bento__cell--ninos video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bento__cell--cocina {
+  grid-column: span 3;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+}
+
+.bento__cell--ninos {
+  grid-column: span 4;
+  background: var(--surface-inverse);
+}
+
+/* ---------- Experiencias · paneles de tinta ---------- */
+.experiencias {
+  position: relative;
+  padding-block: var(--space-10);
+  overflow: hidden;
+}
+
+.experiencias .container { position: relative; z-index: 1; }
+
+/* ---------- Galería de experiencias · imágenes estáticas ---------- */
+.exp-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.exp-panel { display: grid; gap: var(--space-4); }
+
+/* Ritmo escalonado: las columnas centrales caen un poco */
+.exp-panel--offset { margin-top: var(--space-7); }
+
+.exp-panel__media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--surface-sunken);
+}
+
+.exp-panel__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* zoom sutil estándar al pasar el cursor (sin acuarela) */
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.exp-panel:hover .exp-panel__media img { transform: scale(1.04); }
+
+.exp-panel figcaption { display: grid; gap: var(--space-1); }
+
+.exp-panel figcaption h3 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+}
+
+.exp-panel figcaption p {
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-panel__media img { transition: none; }
+  .exp-panel:hover .exp-panel__media img { transform: none; }
+}
+
+/* Marco de revelado (lo crea ink-reveal.js) · ahora exclusivo del Arte */
+.ink-panel__frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+}
+
+.ink-panel__frame img,
+.ink-panel__frame canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ink-panel__frame img { object-fit: cover; }
+
+/* Etiquetas (espejo del componente Tag del DS) */
+.tag-row {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  border-radius: var(--radius-pill);
+  line-height: 1.4;
+}
+
+.tag--sage { background: var(--ck-sage-100); color: var(--ck-sage-700); }
+.tag--neutral { background: var(--ck-neutral-200); color: var(--ck-neutral-700); }
+
+/* Carrusel de etiquetas · scroll automático infinito
+   (equivalente vanilla del efecto Embla "auto-scroll" del componente
+   Logos3, ver "PALABRAS EN CARRUSEL.docx"). Fallback seguro: sin
+   animación, es la misma fila estática de siempre (la pista duplicada
+   queda oculta). Con movimiento permitido, ambas filas forman una
+   cinta continua que se desplaza y se pausa al pasar el cursor. */
+.tag-marquee { margin-top: var(--space-8); }
+
+.tag-marquee .tag-row { margin-top: 0; }
+
+.tag-marquee__track .tag-row[aria-hidden="true"] { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tag-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  .tag-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: tag-marquee-scroll 48s linear infinite;
+  }
+
+  .tag-marquee__track .tag-row {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    padding-right: var(--space-3);
+  }
+
+  .tag-marquee__track .tag-row[aria-hidden="true"] { display: flex; }
+
+  .tag-marquee:hover .tag-marquee__track,
+  .tag-marquee:focus-within .tag-marquee__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes tag-marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+/* ---------- Portafolio de arte · muro de galería ---------- */
+.portafolio {
+  background: var(--surface-sunken);
+  padding-block: var(--space-10);
+}
+
+.portafolio__head { max-width: 42rem; }
+
+/* Muro tipo galería: rejilla de obras cuadradas con revelado de tinta */
+.art-wall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.art-frame {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* El marco de revelado (creado por ink-reveal.js) queda cuadrado y
+   enmarcado con el hairline de tinta de la marca. */
+.art-frame .ink-panel__frame {
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border-ink);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+
+.art-frame:hover .ink-panel__frame {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--ck-terracotta-500);
+}
+
+.art-frame figcaption {
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.art-frame__no {
+  font-size: var(--fs-overline);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
+  color: var(--ck-terracotta-600);
+}
+
+.portafolio__note {
+  margin-top: var(--space-7);
+  text-align: center;
+  font-style: italic;
+  font-size: var(--fs-body-lg);
+  color: var(--text-secondary);
+}
+
+/* ---------- Filosofía · corte en carbón ---------- */
+.filosofia {
+  background: var(--surface-inverse);
+  padding-block: var(--space-10);
+}
+
+.filosofia__inner {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-6);
+}
+
+.filosofia__quote {
+  font-size: clamp(var(--fs-display-m), 5.5vw, var(--fs-display-l));
+  font-weight: var(--fw-regular);
+  color: var(--text-on-dark);
+  line-height: 1.2;
+  letter-spacing: var(--ls-tight);
+  max-width: 20ch;
+  padding-bottom: var(--space-2); /* reserva para descendentes en itálica */
+}
+
+.filosofia__line {
+  color: color-mix(in srgb, var(--ck-warm-ivory) 66%, transparent);
+  font-size: var(--fs-body-lg);
+  letter-spacing: var(--ls-wide);
+}
+
+/* ---------- Reservas ---------- */
+.reservas {
+  position: relative;
+  padding-block: var(--space-10);
+  overflow: hidden;
+}
+
+.reservas .container { position: relative; z-index: 1; }
+
+.reservas__frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--border-ink);
+  border-radius: var(--radius-lg);
+  background: var(--surface-page);
+  padding: clamp(var(--space-7), 6vw, var(--space-9));
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-6);
+}
+
+/* Fondo de video (río) en bucle detrás del calendario */
+.reservas__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Wash marfil: prioriza la legibilidad; el agua queda como textura
+   suave detrás. Ligero degradado para dar profundidad. */
+.reservas__bg-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--ck-warm-ivory) 82%, transparent) 0%,
+      color-mix(in srgb, var(--ck-warm-ivory) 74%, transparent) 45%,
+      color-mix(in srgb, var(--ck-warm-ivory) 82%, transparent) 100%);
+}
+
+/* Todo el contenido del marco por encima del video */
+.reservas__frame > *:not(.reservas__bg):not(.reservas__bg-wash) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reservas__bg { display: none; }
+  .reservas__bg-wash { background: var(--surface-page); }
+}
+
+.facts {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  border-top: 1px solid var(--border-hairline);
+  padding-top: var(--space-6);
+}
+
+.facts__item { display: grid; gap: var(--space-2); }
+
+.facts__item dt {
+  font-size: var(--fs-overline);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--text-muted);
+}
+
+.facts__item dd {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-snug);
+}
+
+.reservas__note {
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  max-width: 52ch;
+}
+
+/* ---------- Pie ---------- */
+.site-footer {
+  background: var(--surface-sunken);
+  border-top: 1px solid var(--border-default);
+  padding-block: var(--space-9) var(--space-7);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.site-footer__brand { display: grid; gap: var(--space-5); justify-items: start; }
+
+/* Isotipo (solo icono) en el pie */
+.site-footer__mark {
+  display: block;
+  width: 99px;
+  height: 60px;
+  color: var(--ck-charcoal);
+}
+
+.site-footer__tagline {
+  color: var(--text-secondary);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-normal);
+  max-width: 34ch;
+}
+
+/* Redes y plataformas */
+.site-footer__social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.site-footer__social a {
+  display: inline-flex;
+  color: var(--ck-neutral-600);
+  transition: var(--transition-color);
+}
+
+.site-footer__social a:hover { color: var(--ck-terracotta-600); }
+
+.site-footer__social svg { width: 22px; height: 22px; }
+
+.site-footer__nav ul { display: grid; gap: var(--space-3); }
+
+.site-footer__nav a {
+  font-size: var(--fs-body-sm);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition-color);
+}
+
+.site-footer__nav a:hover { color: var(--ck-terracotta-600); }
+
+.site-footer__meta {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+}
+
+/* ---------- Grano de papel ---------- */
+.paper-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/></svg>");
+}
+
+/* ---------- Revelado al hacer scroll ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--dur-slower) var(--ease-out),
+      transform var(--dur-slower) var(--ease-out);
+    transition-delay: calc(var(--d, 0) * 90ms);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Accesibilidad ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Contenido específico por dispositivo ----------
+   Pares de copy (texto/párrafos) que difieren entre escritorio y
+   celular: se muestra una sola variante a la vez según el ancho de
+   pantalla. Por defecto (escritorio) se ve ".is-desktop-only" y se
+   oculta ".is-mobile-only"; en móvil (≤640px) se invierte. */
+.is-mobile-only { display: none; }
+
+@media (max-width: 640px) {
+  .is-desktop-only { display: none; }
+  .is-mobile-only { display: revert; }
+}
+
+/* ---------- Rotor de palabras del hero ---------- */
+/* El rotor y su punto final viajan siempre juntos: sin esto, el
+   navegador puede romper línea entre el inline-block y el "." y
+   el punto cae solo a la línea siguiente (desencuadre en móvil). */
+.hero__rotor-unit { white-space: nowrap; }
+
+.hero__rotor {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+.hero__rotor.is-rotating {
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+.hero__rotor-sizer { visibility: hidden; }
+
+.hero__rotor-probe {
+  position: absolute;
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.hero__rotor-stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.18em;
+  bottom: -0.18em;
+  overflow: hidden;
+}
+
+.hero__rotor-word {
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  white-space: nowrap;
+  will-change: transform, opacity;
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    opacity var(--dur-slow) var(--ease-out);
+}
+
+.hero__rotor-word.is-current { transform: translateY(0); opacity: 1; }
+.hero__rotor-word.is-above { transform: translateY(-120%); opacity: 0; }
+.hero__rotor-word.is-below { transform: translateY(120%); opacity: 0; }
+
+/* ---------- Calendario de disponibilidad ---------- */
+.availability {
+  width: 100%;
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+  border-top: 1px solid var(--border-hairline);
+  padding-top: var(--space-6);
+}
+
+.availability__head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.availability__title {
+  font-size: var(--fs-overline);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--text-secondary);
+}
+
+.cal-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-pill);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition-soft);
+}
+
+.cal-nav .lucide { width: 18px; height: 18px; stroke-width: 1.5; }
+
+.cal-nav:hover:not(:disabled) {
+  border-color: var(--border-ink);
+  background: var(--surface-sunken);
+}
+
+.cal-nav:disabled { opacity: 0.35; cursor: default; }
+
+.availability__months {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);
+}
+
+.cal-month { display: grid; gap: var(--space-4); }
+
+.cal-month__title {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.cal-month__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-day {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-bold); /* números en negrita: máxima legibilidad sobre el agua */
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+}
+
+.cal-day--head {
+  aspect-ratio: auto;
+  padding-block: var(--space-1);
+  font-size: 0.75rem;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+}
+
+.cal-day--pad { background: transparent; border: none; }
+
+/* Ocupado: gris apagado, sin interacción */
+.cal-day.is-blocked {
+  background: var(--ck-neutral-200);
+  border-color: var(--ck-neutral-200);
+  color: var(--ck-neutral-400);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+/* Fechas pasadas: atenuadas, con un velo marfil para no mostrar el video crudo */
+.cal-day.is-past {
+  background: color-mix(in srgb, var(--ck-warm-ivory) 55%, transparent);
+  border-color: transparent;
+  color: var(--ck-neutral-400);
+}
+
+.cal-day.is-today {
+  border-color: var(--ck-sage-500);
+  box-shadow: inset 0 0 0 1px var(--ck-sage-500);
+}
+
+.availability__legend {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.availability__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+.availability__swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-xs);
+}
+
+.availability__swatch--free {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+}
+
+.availability__swatch--blocked { background: var(--ck-neutral-200); }
+
+.availability__note {
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  max-width: 52ch;
+}
+
+/* ---------- Reseñas · testimonio minimal ---------- */
+.resenas { padding-block: var(--space-10); }
+
+.resenas .section-head { margin-bottom: var(--space-7); }
+
+.testimonial {
+  max-width: 44rem;
+  display: grid;
+  gap: var(--space-7);
+}
+
+/* Las citas se apilan en la misma celda: el contenedor
+   toma la altura de la más larga (sin saltos de layout) */
+.testimonial__quotes { display: grid; }
+
+.testimonial__quote {
+  grid-area: 1 / 1;
+  font-size: clamp(var(--fs-body-lg), 2.4vw, var(--fs-h2));
+  font-weight: var(--fw-light);
+  line-height: var(--lh-relaxed);
+  color: var(--text-primary);
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(4px);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+}
+
+.testimonial__quote.is-active {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  pointer-events: auto;
+}
+
+.testimonial__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.testimonial__avatars { display: flex; }
+
+.testimonial__avatar {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition-transform);
+}
+
+.testimonial__avatar + .testimonial__avatar { margin-left: -8px; }
+
+.monogram {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 2px var(--surface-page);
+  transition: var(--transition-soft);
+}
+
+.monogram--sage { background: var(--ck-sage-200); }
+.monogram--rose { background: var(--ck-rose-200); }
+.monogram--seafoam { background: var(--ck-seafoam-200); }
+
+.testimonial__avatar:not(.is-active) .monogram {
+  opacity: 0.5;
+  filter: grayscale(0.6);
+}
+
+.testimonial__avatar:hover .monogram { opacity: 1; filter: none; }
+
+.testimonial__avatar.is-active {
+  transform: scale(1.1);
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial__divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-hairline);
+}
+
+/* Fichas de autor apiladas en la misma celda */
+.testimonial__authors { display: grid; flex: 1; }
+
+.testimonial__author {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: 2px;
+  opacity: 0;
+  transform: translateX(-8px);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.testimonial__author.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.testimonial__name {
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+}
+
+.testimonial__meta {
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonial__quote,
+  .testimonial__author,
+  .hero__rotor-word,
+  .hero__rotor.is-rotating {
+    transition: none;
+  }
+  .testimonial__quote { filter: none; transform: none; }
+}
+
+/* ---------- Aparición lenta de texto (solo texto largo) ----------
+   Port vanilla del componente "TextEffect" (motion-primitives, ver
+   "TEXT EFFECT - SLOW APPEARANCE.docx"): cada palabra aparece con un
+   suave desenfoque + fundido + leve ascenso, en cascada, al entrar en
+   pantalla. El efecto es REVERSIBLE (js/text-appear.js alterna .is-in
+   según visibilidad): al salir de pantalla las palabras se desvanecen
+   en cascada inversa (--w-delay-out) y vuelven a aparecer al regresar.
+   Se aplica SOLO a párrafos largos y frases descriptivas; nunca a
+   títulos, etiquetas ni botones. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Estado oculto (también el de salida): desvanecimiento algo más
+     ágil que la entrada, con cascada inversa */
+  .text-appear__w {
+    display: inline-block;
+    white-space: pre;
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(6px);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      filter var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+    transition-delay: var(--w-delay-out, 0ms);
+    will-change: opacity, filter, transform;
+  }
+
+  .text-appear.is-in .text-appear__w {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+    transition-duration: var(--dur-slow), var(--dur-slow), var(--dur-slow);
+    transition-delay: var(--w-delay, 0ms);
+  }
+}
+
+/* ---------- Responsivo ---------- */
+/* Galería en móvil: carrusel deslizable con scroll-snap */
+@media (max-width: 767px) {
+  .gallery__strip {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    min-height: 340px;
+    height: 340px;
+    scrollbar-width: none;
+  }
+
+  .gallery__strip::-webkit-scrollbar { display: none; }
+
+  .gallery__item,
+  .gallery__item.is-active { flex: 0 0 86%; scroll-snap-align: center; }
+
+  .gallery__caption { opacity: 1; }
+}
+
+@media (max-width: 1199px) {
+  .site-nav { display: none; }
+  .nav-toggle { display: flex; }
+}
+
+@media (min-width: 1200px) {
+  .mobile-menu { display: none !important; }
+}
+
+@media (max-width: 900px) {
+  .historia__grid { grid-template-columns: 1fr; gap: var(--space-7); }
+  .historia__media { margin-top: 0; max-width: 480px; }
+
+  .habitaciones__specs { grid-template-columns: 1fr; }
+
+  .bento { grid-template-columns: repeat(6, 1fr); }
+  .bento__cell--bbq { grid-column: span 6; min-height: 340px; }
+  .bento__cell--piscina { grid-column: span 6; grid-row: auto; min-height: 420px; }
+  .bento__cell--sala { grid-column: span 6; grid-row: auto; min-height: 420px; }
+  .bento__cell--cocina { grid-column: span 3; }
+  .bento__cell--jardines { grid-column: span 6; grid-row: auto; min-height: 420px; }
+  .bento__cell--ninos { grid-column: span 3; min-height: 340px; }
+
+  .exp-gallery { grid-template-columns: 1fr 1fr; }
+  .exp-panel--offset { margin-top: 0; }
+
+  .art-wall { grid-template-columns: repeat(2, 1fr); }
+
+  .stats { grid-template-columns: repeat(2, 1fr); row-gap: var(--space-6); }
+  .facts { grid-template-columns: repeat(2, 1fr); }
+
+  .availability__months { grid-template-columns: 1fr; }
+
+  .site-footer__grid { grid-template-columns: 1fr 1fr; }
+  .site-footer__meta { grid-column: span 2; }
+}
+
+@media (max-width: 767px) {
+  /* Recorrido más corto en móvil para no alargar la llegada al contenido;
+     en vertical la banda ocupa el alto disponible bajo la cabecera */
+  .hero-runway { height: 220vh; }
+  .hero { --hero-h: calc(100dvh - var(--header-h)); }
+}
+
+@media (max-width: 640px) {
+  .container { padding-inline: var(--space-4); }
+
+  /* Menú móvil: el panel se revela con un borde curvo animado mediante
+     clip-path (JS, ver initMobileMenu en main.js) en lugar de un simple
+     recorte recto. El resto del contenido/estilo del menú no cambia. */
+  .mobile-menu {
+    left: auto;
+    width: min(100%, 420px);
+    will-change: clip-path;
+  }
+
+  /* Hero card más compacta para dejar ver el fondo día/noche */
+  .hero { padding-inline: var(--space-4); }
+  .hero__card { padding: var(--space-5); gap: var(--space-4); max-width: 330px; }
+  /* Un punto menos de cuerpo: la frase + palabra rotando + "." caben
+     sin que el punto se descuelgue a otra línea */
+  .hero__title { font-size: clamp(1.55rem, 6.5vw, 1.9rem); }
+  .hero__mark { margin-top: 0; }
+  .hero__mark svg { width: 84px; }
+  .hero__actions { flex-direction: column; width: 100%; }
+  .hero__actions .btn { width: 100%; }
+
+  /* Historia · texto de cuerpo un poco más pequeño */
+  .historia__text p { font-size: 1.0625rem; line-height: var(--lh-relaxed); }
+
+  /* ---- Scroll card stack (fichas 6/16/4) — solo phone view ----
+     .habitaciones__specs pasa a ser el "runway" (alto lo fija el JS);
+     .specs-stack es el escenario fijo (sticky) y las fichas se apilan
+     en absoluto, transformadas por initScrollCards al hacer scroll. */
+  .habitaciones__specs {
+    display: block;
+    position: relative;
+    gap: 0;
+  }
+
+  .specs-stack {
+    display: block;
+    position: sticky;
+    top: 72px;                          /* alto de la cabecera fija */
+    height: calc(100vh - 72px);
+    height: calc(100svh - 72px);
+    overflow: hidden;
+  }
+
+  .specs-stack .spec-tile {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: min(86%, 360px);
+    height: min(58svh, 440px);
+    opacity: 1;                         /* anula el estado inicial de .reveal */
+    align-content: center;
+    transform-origin: center center;
+    transition: transform 0.18s ease-out;
+    will-change: transform;
+    box-shadow: var(--shadow-md);
+  }
+
+  .specs-stack .spec-tile__number { font-size: var(--fs-display-l); }
+
+  .bento__cell--cocina,
+  .bento__cell--jardines { grid-column: span 6; }
+
+  /* Fuente ("Para descubrir") a ancho completo, como las demás tarjetas */
+  .bento__cell--ninos { grid-column: span 6; min-height: 420px; }
+
+  /* Encuadre del video hacia la fuente (izquierda) */
+  .bento__cell--ninos video { object-position: 32% center; }
+
+  /* Menos espacio vacío entre el bento de Áreas comunes y Experiencias */
+  .areas { padding-block: var(--space-7); }
+  .experiencias { padding-block: var(--space-7); }
+
+  .exp-gallery { grid-template-columns: 1fr; }
+
+  .art-wall { grid-template-columns: 1fr; }
+
+  /* Banda de cifras más compacta y solo Terreno + Construidos */
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stats__item:nth-child(n+3) { display: none; }
+  .stats__item { padding-top: var(--space-5); }
+  .stats__item dd { font-size: var(--fs-h1); }
+
+  .facts { grid-template-columns: 1fr; text-align: center; }
+
+  .site-footer__grid { grid-template-columns: 1fr; }
+  .site-footer__meta { grid-column: auto; }
+}

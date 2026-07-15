@@ -1,0 +1,35 @@
+<!-- @dsCard group="Brand" viewport="700x250" name="Logo Clear Space & Don'ts" subtitle="Min clear space = height of the A-frame peak. Never distort or recolor" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); font-family:var(--font-body); color:var(--text-primary); padding:20px; }
+  .row { display:flex; gap:16px; }
+  .cell { flex:1; }
+  .frame { position:relative; height:170px; border-radius:var(--radius-md); background:var(--surface-raised); border:1px solid var(--border-default); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .frame img { height:110px; }
+  .clear { position:absolute; inset:22px; border:1px dashed var(--ck-sage-300); border-radius:var(--radius-sm); }
+  .cap { margin-top:8px; font-size:11.5px; color:var(--text-muted); text-align:center; }
+  .bad { position:absolute; top:8px; right:8px; width:22px; height:22px; border-radius:50%; background:var(--ck-terracotta-500); color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .ok  { background:var(--ck-seafoam-600); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="cell">
+      <div class="frame"><div class="clear"></div><img src="../../assets/logo/casa-kaypa-logo.png"><div class="bad ok">✓</div></div>
+      <div class="cap">Respect clear space</div>
+    </div>
+    <div class="cell">
+      <div class="frame"><img src="../../assets/logo/casa-kaypa-logo.png" style="height:110px; transform:scaleX(1.5); filter:sepia(1) hue-rotate(300deg) saturate(4)"><div class="bad">✕</div></div>
+      <div class="cap">Never stretch or recolor</div>
+    </div>
+    <div class="cell">
+      <div class="frame" style="background:var(--ck-dusty-rose)"><img src="../../assets/logo/casa-kaypa-logo.png" style="height:110px"><div class="bad">✕</div></div>
+      <div class="cap">Avoid busy / low-contrast fields</div>
+    </div>
+  </div>
+</body>
+</html>

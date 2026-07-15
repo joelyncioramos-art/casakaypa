@@ -1,0 +1,29 @@
+/* ============================================================
+   Casa Kaypa · Motion Tokens
+   Movement is slow, natural and settling — like light shifting
+   across a room or a curtain in the breeze. Nothing snappy or
+   bouncy. Ease-out for entrances, gentle ease-in-out for loops.
+   ============================================================ */
+
+:root {
+  /* Durations */
+  --dur-instant: 90ms;   /* @kind other */
+  --dur-fast:    180ms;  /* @kind other */
+  --dur-base:    300ms;  /* @kind other */
+  --dur-slow:    520ms;  /* @kind other */
+  --dur-slower:  800ms;  /* @kind other */
+  --dur-ambient: 6000ms; /* @kind other */
+
+  /* Easing */
+  --ease-out:      cubic-bezier(0.22, 1, 0.36, 1); /* @kind other */
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);   /* @kind other */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);     /* @kind other */
+  --ease-breathe:  cubic-bezier(0.37, 0, 0.63, 1); /* @kind other */
+
+  /* Common transitions */
+  --transition-color:  color var(--dur-fast) var(--ease-standard),
+                       background-color var(--dur-fast) var(--ease-standard),
+                       border-color var(--dur-fast) var(--ease-standard); /* @kind other */
+  --transition-transform: transform var(--dur-base) var(--ease-out); /* @kind other */
+  --transition-soft:   all var(--dur-base) var(--ease-out); /* @kind other */
+}

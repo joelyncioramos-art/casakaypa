@@ -1,0 +1,26 @@
+<!-- @dsCard group="Spacing" viewport="700x170" name="Motion — Easing" subtitle="Slow, settling movement. Hover a swatch to feel the curve" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); font-family:var(--font-body); color:var(--text-primary); padding:24px; }
+  .row { display:flex; gap:16px; }
+  .item { flex:1; }
+  .tok { font-size:11.5px; color:var(--text-muted); margin-bottom:8px; }
+  .track { height:44px; background:var(--ck-cream); border-radius:var(--radius-pill); position:relative; overflow:hidden; }
+  .dot { position:absolute; top:6px; left:6px; width:32px; height:32px; border-radius:50%; background:var(--ck-terracotta-500); }
+  .item:hover .a { transform:translateX(calc(100% + 200px)); transition:transform var(--dur-slow) var(--ease-out); }
+  .item:hover .b { transform:translateX(calc(100% + 200px)); transition:transform var(--dur-slow) var(--ease-in-out); }
+  .item:hover .c { transform:translateX(calc(100% + 200px)); transition:transform var(--dur-ambient) var(--ease-breathe); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="tok">ease-out · entrances</div><div class="track"><div class="dot a"></div></div></div>
+    <div class="item"><div class="tok">ease-in-out · transitions</div><div class="track"><div class="dot b" style="background:var(--ck-sage-500)"></div></div></div>
+    <div class="item"><div class="tok">ease-breathe · ambient</div><div class="track"><div class="dot c" style="background:var(--ck-seafoam-500)"></div></div></div>
+  </div>
+</body>
+</html>

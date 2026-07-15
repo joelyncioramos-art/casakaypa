@@ -1,0 +1,49 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Card & Input" subtitle="Content card + understated form field" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); padding:24px; color:var(--text-primary); font-family:var(--font-body); }
+  #root { display:grid; grid-template-columns:1.2fr 1fr; gap:22px; align-items:start; }
+  h3 { margin:8px 0 6px; font-weight:var(--fw-regular); font-size:24px; letter-spacing:var(--ls-tight); }
+  p { margin:0 0 14px; color:var(--text-secondary); font-size:15px; line-height:1.5; }
+  .media { width:100%; height:100%; background:
+    linear-gradient(135deg, var(--ck-sage-300), var(--ck-seafoam-300)); }
+  .form { display:flex; flex-direction:column; gap:18px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Card, Input, Button, Tag, Eyebrow } = window.CasaKaypaDesignSystem_5938b5;
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <>
+        <Card media={<div className="media" />} mediaHeight={150} hoverLift>
+          <Eyebrow>Suite</Eyebrow>
+          <h3>La Casa del Árbol</h3>
+          <p>Wake to birdsong and valley light, steps from the river.</p>
+          <div style={{display:'flex',gap:8}}>
+            <Tag tone="sage">2 guests</Tag>
+            <Tag tone="seafoam">Terraza</Tag>
+          </div>
+        </Card>
+        <Card variant="outline">
+          <Eyebrow>Enquire</Eyebrow>
+          <h3 style={{fontSize:'20px'}}>Plan your stay</h3>
+          <div className="form">
+            <Input label="Nombre" placeholder="Tu nombre" />
+            <Input label="Fechas" hint="Llegada — salida" />
+            <Button fullWidth>Enviar consulta</Button>
+          </div>
+        </Card>
+      </>
+    );
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!-- @dsCard group="Type" viewport="700x180" name="Overline & Wordmark Tracking" subtitle="All-caps, wide tracking — echoes the logo lockup" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); font-family:var(--font-body); color:var(--text-primary); padding:26px; }
+  .stack { display:flex; flex-direction:column; gap:20px; }
+  .tok { font-size:11px; color:var(--text-muted); letter-spacing:.04em; margin-bottom:6px; }
+  .over { text-transform:uppercase; font-size:var(--fs-overline); font-weight:var(--fw-medium); letter-spacing:var(--ls-wider); color:var(--text-brand); }
+  .mark { text-transform:uppercase; font-size:28px; font-weight:var(--fw-regular); letter-spacing:var(--ls-wide); }
+  .sub { text-transform:uppercase; font-size:14px; font-weight:var(--fw-regular); letter-spacing:var(--ls-widest); color:var(--text-secondary); }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div><div class="tok">Overline · ls-wider (0.18em)</div><div class="over">Boutique Country Retreat</div></div>
+    <div><div class="tok">Wordmark · ls-wide (0.08em)</div><div class="mark">Casa Kaypa</div></div>
+    <div><div class="tok">Locality · ls-widest (0.32em)</div><div class="sub">Santa Eulalia</div></div>
+  </div>
+</body>
+</html>

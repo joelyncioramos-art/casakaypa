@@ -1,0 +1,50 @@
+<!-- @dsCard group="Colors" viewport="700x230" name="Accent Ramps" subtitle="Tints & shades derived from each accent for hovers, borders & fills" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; background:var(--surface-page); font-family:var(--font-body); color:var(--text-primary); padding:22px; }
+  .ramp { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+  .name { width:96px; font-size:13px; font-weight:var(--fw-medium); }
+  .steps { display:flex; flex:1; gap:6px; }
+  .s { flex:1; height:40px; border-radius:var(--radius-sm); display:flex; align-items:flex-end; justify-content:center; padding-bottom:3px; font-size:10px; color:rgba(43,43,43,.55); }
+  .s.dark { color:rgba(251,249,244,.7); }
+</style>
+</head>
+<body>
+  <div class="ramp"><div class="name">Sage</div><div class="steps">
+    <div class="s" style="background:var(--ck-sage-100)">100</div>
+    <div class="s" style="background:var(--ck-sage-200)">200</div>
+    <div class="s" style="background:var(--ck-sage-300)">300</div>
+    <div class="s dark" style="background:var(--ck-sage-500)">500</div>
+    <div class="s dark" style="background:var(--ck-sage-600)">600</div>
+    <div class="s dark" style="background:var(--ck-sage-700)">700</div>
+  </div></div>
+  <div class="ramp"><div class="name">Seafoam</div><div class="steps">
+    <div class="s" style="background:var(--ck-seafoam-100)">100</div>
+    <div class="s" style="background:var(--ck-seafoam-200)">200</div>
+    <div class="s" style="background:var(--ck-seafoam-300)">300</div>
+    <div class="s dark" style="background:var(--ck-seafoam-500)">500</div>
+    <div class="s dark" style="background:var(--ck-seafoam-600)">600</div>
+    <div class="s dark" style="background:var(--ck-seafoam-700)">700</div>
+  </div></div>
+  <div class="ramp"><div class="name">Terracotta</div><div class="steps">
+    <div class="s" style="background:var(--ck-terracotta-100)">100</div>
+    <div class="s" style="background:var(--ck-terracotta-200)">200</div>
+    <div class="s" style="background:var(--ck-terracotta-300)">300</div>
+    <div class="s dark" style="background:var(--ck-terracotta-500)">500</div>
+    <div class="s dark" style="background:var(--ck-terracotta-600)">600</div>
+    <div class="s dark" style="background:var(--ck-terracotta-700)">700</div>
+  </div></div>
+  <div class="ramp"><div class="name">Dusty Rose</div><div class="steps">
+    <div class="s" style="background:var(--ck-rose-100)">100</div>
+    <div class="s" style="background:var(--ck-rose-200)">200</div>
+    <div class="s" style="background:var(--ck-rose-300)">300</div>
+    <div class="s" style="background:var(--ck-rose-400)">400</div>
+    <div class="s dark" style="background:var(--ck-rose-500)">500</div>
+    <div class="s" style="background:transparent"></div>
+  </div></div>
+</body>
+</html>
