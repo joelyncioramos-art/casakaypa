@@ -517,7 +517,11 @@
         <header class="section-head portafolio__head reveal">
           <p class="eyebrow eyebrow--rule">Portafolio de arte</p>
           <h2 class="section-title">Un lugar que inspira a crear.</h2>
-          <p class="section-lead">Piezas nacidas y reunidas en Casa Kaypa: pintura, cerámica, talla y escultura. Pasa el cursor sobre cada obra para revelarla a todo color.</p>
+          <!-- En phone view no hay cursor: la instrucción de hover solo
+               aplica a desktop (en táctil las obras se auto-pintan al
+               scrollear, sin instrucción necesaria). -->
+          <p class="section-lead is-desktop-only">Piezas nacidas y reunidas en Casa Kaypa: pintura, cerámica, talla y escultura. Pasa el cursor sobre cada obra para revelarla a todo color.</p>
+          <p class="section-lead is-mobile-only">Piezas nacidas y reunidas en Casa Kaypa: pintura, cerámica, talla y escultura.</p>
         </header>
 
         <div class="art-wall">
