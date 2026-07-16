@@ -41,12 +41,29 @@
      basta. En táctil, el B/N es el estado de REPOSO —lo que se ve
      mientras se scrollea antes de llegar al cuadro— así que necesita
      leerse claramente como blanco y negro para que el paso a color
-     se note. Sin el brightness/contrast que aclaraba el gris y con
-     bastante menos velo marfil encima. */
-  var VEIL_FILTER = canHover
-    ? 'grayscale(1) brightness(1.06) contrast(0.94)'
-    : 'grayscale(1) contrast(1.05)';
+     se note. Menos brillo, más contraste y bastante menos velo marfil. */
+  var VEIL_BRIGHTNESS = canHover ? 1.06 : 1.0;   // multiplicador de luminancia
+  var VEIL_CONTRAST = canHover ? 0.94 : 1.08;    // realce de contraste
   var VEIL_TINT_ALPHA = canHover ? 0.32 : 0.14;
+
+  /* IMPORTANTE (compatibilidad móvil): el gris NO se hace con
+     ctx.filter='grayscale(1)' porque Canvas ctx.filter no está
+     soportado en Safari iOS < 17 ni en varios Android — ahí se ignora
+     y la imagen se dibuja A COLOR (el bug "color difuminado" que se ve
+     en celulares reales). En su lugar se calcula la luminancia píxel a
+     píxel una sola vez (grayscale offscreen cacheado), lo que funciona
+     en todos los navegadores. Se prueba el soporte de ctx.filter solo
+     como respaldo. */
+  var CANVAS_FILTER_OK = (function () {
+    try {
+      var c = document.createElement('canvas');
+      var cx = c.getContext('2d');
+      if (!('filter' in cx)) return false;
+      cx.filter = 'grayscale(1)';
+      return cx.filter === 'grayscale(1)';
+    } catch (e) { return false; }
+  })();
+
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function initPanel(panel, opts) {
@@ -80,8 +97,40 @@
       return { dx: (w - dw) / 2, dy: (h - dh) / 2, dw: dw, dh: dh };
     }
 
-    // Velo previo: en lugar de un lienzo en blanco, muestra la imagen
-    // desaturada y con un ligero velo marfil — una vista previa que
+    /* Versión en escala de grises de la obra, cacheada. Se calcula la
+       luminancia píxel a píxel (funciona en todo navegador, a diferencia
+       de ctx.filter). Se construye una sola vez cuando la imagen carga.
+       Si getImageData falla (p. ej. CORS), queda null y paintVeil cae al
+       respaldo con ctx.filter cuando esté disponible. */
+    var grayCanvas = null;
+    var grayTried = false;
+
+    function buildGray() {
+      grayTried = true;
+      if (!img.complete || !img.naturalWidth) return;
+      try {
+        var gc = document.createElement('canvas');
+        gc.width = img.naturalWidth;
+        gc.height = img.naturalHeight;
+        var gx = gc.getContext('2d');
+        gx.drawImage(img, 0, 0);
+        var id = gx.getImageData(0, 0, gc.width, gc.height);
+        var d = id.data;
+        for (var i = 0; i < d.length; i += 4) {
+          var lum = (0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]) * VEIL_BRIGHTNESS;
+          lum = (lum - 128) * VEIL_CONTRAST + 128;   // realce de contraste
+          if (lum < 0) lum = 0; else if (lum > 255) lum = 255;
+          d[i] = d[i + 1] = d[i + 2] = lum;
+        }
+        gx.putImageData(id, 0, 0);
+        grayCanvas = gc;
+      } catch (e) {
+        grayCanvas = null; // respaldo a ctx.filter
+      }
+    }
+
+    // Velo previo: en lugar de un lienzo en blanco, muestra la obra en
+    // blanco y negro con un ligero velo marfil — una vista previa que
     // invita a interactuar. El pincel "carva" este velo para revelar el
     // color pleno de la imagen base que está debajo.
     function paintVeil() {
@@ -92,10 +141,20 @@
       // girar el celular) vuelvan a tapar la obra.
       if (revealed) return;
       if (img.complete && img.naturalWidth) {
+        if (!grayTried) buildGray();
         var r = coverRect(img.naturalWidth, img.naturalHeight, dims.w, dims.h);
-        ctx.filter = VEIL_FILTER;
-        ctx.drawImage(img, r.dx, r.dy, r.dw, r.dh);
-        ctx.filter = 'none';
+        if (grayCanvas) {
+          // Camino universal: dibuja la copia gris ya calculada.
+          ctx.drawImage(grayCanvas, r.dx, r.dy, r.dw, r.dh);
+        } else if (CANVAS_FILTER_OK) {
+          // Respaldo (raro): ctx.filter soportado pero sin copia gris.
+          ctx.filter = 'grayscale(1) brightness(' + VEIL_BRIGHTNESS + ') contrast(' + VEIL_CONTRAST + ')';
+          ctx.drawImage(img, r.dx, r.dy, r.dw, r.dh);
+          ctx.filter = 'none';
+        } else {
+          // Último recurso: color con más velo marfil para atenuar.
+          ctx.drawImage(img, r.dx, r.dy, r.dw, r.dh);
+        }
         ctx.fillStyle = 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',' + VEIL_TINT_ALPHA + ')';
         ctx.fillRect(0, 0, dims.w, dims.h);
       } else {
