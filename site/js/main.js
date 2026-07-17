@@ -224,13 +224,51 @@
     });
   }
 
+  /* ---------- Videos ambiente: carga perezosa ----------
+     Los videos de galería/historia/reservas usan data-src en lugar de
+     src: sin esto, los 8 loops (~40 MB) empezaban a descargarse TODOS
+     al abrir la página por el autoplay. Cada uno muestra su poster
+     (el primer fotograma real del video, así el arranque es invisible)
+     y el archivo se descarga recién cuando el video se acerca al
+     viewport (~800px antes), reproduciéndose al llegar. */
+  function initLazyVideos() {
+    var lazies = Array.prototype.slice.call(document.querySelectorAll('video[data-src]'));
+    if (!lazies.length) return;
+
+    function activate(v) {
+      if (!v.dataset.src) return;
+      v.src = v.dataset.src;
+      v.removeAttribute('data-src');
+      v.load();
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      lazies.forEach(activate);
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          activate(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '800px 0px 800px 0px' });
+
+    lazies.forEach(function (v) { io.observe(v); });
+  }
+
   /* ---------- Videos ambiente: reanudar tras suspensión ----------
      Al bloquear el teléfono (o dejar la pestaña en segundo plano un
      buen rato) el navegador pausa los <video autoplay loop> y puede
      liberar sus decodificadores — al volver quedan congelados o en
      NEGRO. Aquí se reanudan: al volver a ser visible el documento, al
      restaurar desde bfcache (pageshow) y al reentrar en pantalla.
-     El video del hero (.dn-video) se excluye: lo gobierna day-night.js. */
+     El video del hero (.dn-video) se excluye: lo gobierna day-night.js.
+     Nota: resume() ignora los que aún no tienen src (lazy sin activar). */
   function initVideoKeepAlive() {
     function ambientVideos() {
       return Array.prototype.filter.call(
@@ -240,6 +278,7 @@
     }
 
     function resume(v) {
+      if (v.dataset.src) return; // lazy aún no activado: nada que reanudar
       if (v.paused) {
         var p = v.play();
         if (p && p.catch) p.catch(function () {});
@@ -386,6 +425,7 @@
     initReveals();
     initMobileMenu();
     initAnchorNav();
+    initLazyVideos();
     initVideoKeepAlive();
     initScrollCards();
     initIcons();

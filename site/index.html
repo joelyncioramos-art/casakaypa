@@ -11,8 +11,8 @@
   <link rel="icon" type="image/png" href="assets/logo/casa-kaypa-logo.png" />
 
   <!-- Sistema de diseño Casa Kaypa (tokens) + estilos de página -->
-  <link rel="stylesheet" href="css/styles.css?v=6" />
-  <link rel="stylesheet" href="css/site.css?v=6" />
+  <link rel="stylesheet" href="css/styles.css?v=8" />
+  <link rel="stylesheet" href="css/site.css?v=8" />
 </head>
 <body>
 
@@ -183,7 +183,7 @@
           <p>Hoy, ese sueño es una realidad, y te invitamos a vivirlo con nosotros.</p>
         </div>
         <figure class="historia__media reveal" style="--d: 1">
-          <video src="assets/media/casa-kaypa-entrada-patio-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la entrada y el patio de Casa Kaypa"></video>
+          <video data-src="assets/media/casa-kaypa-entrada-patio-720.mp4" poster="assets/media/casa-kaypa-entrada-patio-720-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="Recorrido por la entrada y el patio de Casa Kaypa"></video>
           <figcaption class="historia__quote"><em>Construida despacio, para vivirse despacio.</em></figcaption>
         </figure>
       </div>
@@ -320,7 +320,7 @@
         <div class="bento">
           <!-- Punto fuerte: zona BBQ -->
           <article class="bento__cell bento__cell--bbq reveal">
-            <video src="assets/media/casa-kaypa-bbq-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la zona BBQ y quincho de Casa Kaypa"></video>
+            <video data-src="assets/media/casa-kaypa-bbq-720.mp4" poster="assets/media/casa-kaypa-bbq-720-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="Recorrido por la zona BBQ y quincho de Casa Kaypa"></video>
             <div class="bento__overlay">
               <i data-lucide="flame" aria-hidden="true"></i>
               <h3>Zona BBQ</h3>
@@ -329,7 +329,7 @@
           </article>
 
           <article class="bento__cell bento__cell--piscina reveal" style="--d: 1">
-            <video src="assets/media/casa-kaypa-piscina-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido aéreo por la piscina de 14 metros de Casa Kaypa"></video>
+            <video data-src="assets/media/casa-kaypa-piscina-720.mp4" poster="assets/media/casa-kaypa-piscina-720-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="Recorrido aéreo por la piscina de 14 metros de Casa Kaypa"></video>
             <div class="bento__overlay">
               <i data-lucide="waves" aria-hidden="true"></i>
               <h3>Piscina de 14 metros</h3>
@@ -338,7 +338,7 @@
           </article>
 
           <article class="bento__cell bento__cell--ninos reveal" style="--d: 2">
-            <video src="assets/media/casa-kaypa-fuente-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Fuente ornamental de pez tallado en piedra de Casa Kaypa"></video>
+            <video data-src="assets/media/casa-kaypa-fuente-720.mp4" poster="assets/media/casa-kaypa-fuente-720-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="Fuente ornamental de pez tallado en piedra de Casa Kaypa"></video>
             <div class="bento__overlay">
               <i data-lucide="ferris-wheel" aria-hidden="true"></i>
               <h3>Para descubrir</h3>
@@ -347,7 +347,7 @@
           </article>
 
           <article class="bento__cell bento__cell--cocina reveal" style="--d: 1">
-            <video src="assets/media/casa-kaypa-cocina-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la cocina y el comedor de Casa Kaypa"></video>
+            <video data-src="assets/media/casa-kaypa-cocina-720.mp4" poster="assets/media/casa-kaypa-cocina-720-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="Recorrido por la cocina y el comedor de Casa Kaypa"></video>
             <div class="bento__overlay">
               <i data-lucide="chef-hat" aria-hidden="true"></i>
               <h3>Cocina equipada</h3>
@@ -356,7 +356,7 @@
           </article>
 
           <article class="bento__cell bento__cell--jardines reveal" style="--d: 2">
-            <video src="assets/media/casa-kaypa-jardines-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la entrada y los jardines de Casa Kaypa"></video>
+            <video data-src="assets/media/casa-kaypa-jardines-720.mp4" poster="assets/media/casa-kaypa-jardines-720-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="Recorrido por la entrada y los jardines de Casa Kaypa"></video>
             <div class="bento__overlay">
               <i data-lucide="trees" aria-hidden="true"></i>
               <h3>Espacio y acceso</h3>
@@ -365,7 +365,7 @@
           </article>
 
           <article class="bento__cell bento__cell--sala reveal" style="--d: 3">
-            <video src="assets/media/casa-kaypa-sala-720.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por la sala con chimenea de Casa Kaypa"></video>
+            <video data-src="assets/media/casa-kaypa-sala-720.mp4" poster="assets/media/casa-kaypa-sala-720-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="Recorrido por la sala con chimenea de Casa Kaypa"></video>
             <div class="bento__overlay">
               <i data-lucide="armchair" aria-hidden="true"></i>
               <h3>Sala con chimenea</h3>
@@ -639,13 +639,14 @@
       <div class="container">
         <div class="reservas__frame reveal">
           <!-- Fondo de video en bucle: río de Santa Eulalia (Higgsfield).
-               Reproducción continua estándar (sin scroll). Al aprobar el
-               720p, sustituir el archivo por la versión 4K en la misma ruta.
-               El wash marfil garantiza la legibilidad del calendario. -->
-          <video class="reservas__bg" autoplay muted loop playsinline preload="auto" aria-hidden="true"
-                 poster="assets/media/casa-kaypa-dia.jpeg">
-            <source src="assets/media/casa-kaypa-rio-720.mp4" type="video/mp4" />
-          </video>
+               El poster es el PRIMER FOTOGRAMA del propio video (no otra
+               foto): lo que se ve al instante y lo que arranca a moverse
+               son la misma imagen, sin salto visual. data-src = carga
+               perezosa (ver initLazyVideos en main.js). El wash marfil
+               garantiza la legibilidad del calendario. -->
+          <video class="reservas__bg" data-src="assets/media/casa-kaypa-rio-720.mp4"
+                 poster="assets/media/casa-kaypa-rio-720-poster.jpg"
+                 autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
           <div class="reservas__bg-wash" aria-hidden="true"></div>
 
           <p class="eyebrow eyebrow--rule">Reservas</p>
@@ -744,13 +745,13 @@
   <div class="paper-grain" aria-hidden="true"></div>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-  <script src="js/ink-reveal.js?v=6" defer></script>
-  <script src="js/day-night.js?v=6" defer></script>
-  <script src="js/gallery.js?v=6" defer></script>
-  <script src="js/word-rotor.js?v=6" defer></script>
-  <script src="js/availability.js?v=7" defer></script>
-  <script src="js/testimonial.js?v=6" defer></script>
-  <script src="js/text-appear.js?v=6" defer></script>
-  <script src="js/main.js?v=6" defer></script>
+  <script src="js/ink-reveal.js?v=8" defer></script>
+  <script src="js/day-night.js?v=8" defer></script>
+  <script src="js/gallery.js?v=8" defer></script>
+  <script src="js/word-rotor.js?v=8" defer></script>
+  <script src="js/availability.js?v=8" defer></script>
+  <script src="js/testimonial.js?v=8" defer></script>
+  <script src="js/text-appear.js?v=8" defer></script>
+  <script src="js/main.js?v=8" defer></script>
 </body>
 </html>
