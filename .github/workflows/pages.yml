@@ -7,6 +7,13 @@ on:
       - "site/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
+  # Un push hecho con el GITHUB_TOKEN automático (como el commit del
+  # bot de sync-airbnb.yml) NO dispara el evento "push" de otros
+  # workflows — es una protección de GitHub contra loops infinitos.
+  # Por eso también se escucha cuando termina esa sincronización.
+  workflow_run:
+    workflows: ["Sincronizar calendario de Airbnb"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -19,6 +26,9 @@ concurrency:
 
 jobs:
   deploy:
+    # Si el disparador fue la sincronización, publicar solo si terminó
+    # bien (nada que desplegar si el sync falló).
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
