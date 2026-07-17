@@ -2,25 +2,26 @@
    Casa Kaypa · Calendario de disponibilidad (solo lectura)
    Sincronizado con Airbnb mediante iCal (.ics).
 
-   CÓMO CONECTAR EL CALENDARIO REAL:
-   1. En Airbnb: Calendario > Disponibilidad > Exportar calendario.
-   2. Pegar el enlace .ics en AIRBNB_ICAL_URL (abajo).
-   3. Nota: Airbnb no envía cabeceras CORS, por lo que el
-      navegador puede bloquear la petición directa. En producción
-      se recomienda un pequeño proxy propio (o un worker) que
-      reenvíe el .ics; basta con apuntar AIRBNB_ICAL_URL a ese
-      proxy. Si la petición falla, el calendario usa los datos
-      de ejemplo y lo indica en la consola.
+   CÓMO ESTÁ CONECTADO:
+   El enlace iCal real de Airbnb es privado (revela fechas de
+   reservas) y Airbnb no envía cabeceras CORS, así que el navegador
+   no puede leerlo directamente desde aquí. En su lugar:
+   1. El enlace vive como secreto de GitHub (AIRBNB_ICAL_URL), nunca
+      en el código.
+   2. .github/workflows/sync-airbnb.yml lo descarga cada 3 horas,
+      filtra todo salvo las fechas ocupadas (sin nombres de huéspedes
+      ni otros datos) y guarda el resultado en
+      site/assets/data/availability.ics — mismo origen, sin CORS.
+   3. Este script lee ese archivo local.
 
-   Mientras AIRBNB_ICAL_URL esté vacío se usan datos de ejemplo
-   (MOCK) generados en formato iCal real, de modo que el parser
-   se ejercita de extremo a extremo y la arquitectura queda lista.
+   Si el archivo aún no existe o la sincronización nunca corrió, cae
+   a datos de ejemplo (MOCK) para que el calendario nunca se vea roto.
    ============================================================ */
 (function () {
   'use strict';
 
   /* ---------- Configuración ---------- */
-  var AIRBNB_ICAL_URL = ''; // ← pegar aquí el enlace iCal de Airbnb (o del proxy)
+  var AIRBNB_ICAL_URL = 'assets/data/availability.ics'; // sincronizado por GitHub Actions
   var MONTHS_MAX = 12;      // horizonte máximo de navegación
 
   // Meses visibles a la vez: 1 en móvil (una sola vista, se navega con las
@@ -242,7 +243,9 @@
   }
 
   if (AIRBNB_ICAL_URL) {
-    fetch(AIRBNB_ICAL_URL, { mode: 'cors' })
+    // no-store: el archivo lo actualiza GitHub Actions cada 3 horas;
+    // sin esto el navegador podría servir una copia en caché vieja.
+    fetch(AIRBNB_ICAL_URL, { cache: 'no-store' })
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.text();
@@ -252,8 +255,7 @@
         render();
       })
       .catch(function (err) {
-        // Probable bloqueo CORS de Airbnb: ver nota de cabecera.
-        useMock('no se pudo leer el iCal: ' + err.message);
+        useMock('no se pudo leer el calendario sincronizado: ' + err.message);
       });
   } else {
     useMock();

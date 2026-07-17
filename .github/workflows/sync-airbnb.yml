@@ -1,0 +1,39 @@
+name: Sincronizar calendario de Airbnb
+
+on:
+  schedule:
+    # Cada 3 horas. Los cron de GitHub Actions pueden retrasarse en
+    # horas pico; no es un problema para disponibilidad de reservas.
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-airbnb
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Descargar y filtrar el iCal de Airbnb
+        env:
+          AIRBNB_ICAL_URL: ${{ secrets.AIRBNB_ICAL_URL }}
+        run: python3 .github/scripts/sync_airbnb_ical.py
+
+      - name: Commit si hay cambios
+        run: |
+          git config user.name "casa-kaypa-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- site/assets/data/availability.ics; then
+            echo "Sin cambios en el calendario — nada que subir."
+            exit 0
+          fi
+          git add site/assets/data/availability.ics
+          git commit -m "Sincronizar calendario de Airbnb [auto]"
+          git push
